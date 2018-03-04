@@ -24,7 +24,7 @@ github_username:  andylockran
 
 # Build settings
 markdown: kramdown
-theme: midnight
+theme: minima
 plugins:
   - jekyll-feed
 
