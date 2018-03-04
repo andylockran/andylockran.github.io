@@ -1,0 +1,61 @@
+---
+layout: post
+title: Django League Table
+date: 2008-10-24 15:27:46.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '241927628'
+  blr_date: '2011-10-09'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1452065306;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:18;}i:1;a:1:{s:2:"id";i:207;}i:2;a:1:{s:2:"id";i:113;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>I'm trying to write a league table for some sport results using django.  At the moment my model looks pretty basic:
+<div class="highlight">
+<pre><span style="color:#808080;">class Scores(models.Model):</span><br /><span style="color:#808080;">    matchnum = models.AutoField(primary_key=True)</span><br /><span style="color:#808080;">    homeuser = models.ForeignKey(User, related_name=&quot;hmuser&quot;)</span><br /><span style="color:#808080;">    hometeam = models.ForeignKey(&#39;teams&#39;, related_name=&quot;hmteam&quot;)</span><br /><span style="color:#808080;">    homescore = models.IntegerField()</span><br /><span style="color:#808080;">    wayuser = models.ForeignKey(User)</span><br /><span style="color:#808080;">    awayteam = models.ForeignKey(&#39;teams&#39;)</span><br /><span style="color:#808080;">    awayscore = models.IntegerField()</span><br /><span style="color:#808080;">    pub_date = models.DateTimeField(auto_now_add=True, editable=False)</span><br /><span style="color:#808080;">    def __unicode__(self):</span><br /><span style="color:#808080;">        id = str(self.matchnum)</span><br /><span style="color:#808080;">        return id</span><br /><span style="color:#808080;">    class Meta:</span><br /><span style="color:#808080;">        verbose_name_plural=&quot;Scores&quot;</span><br /><span style="color:#808080;"></span><br /><span style="color:#808080;">class Teams(models.Model):</span><br /><span style="color:#808080;">    teamname = models.CharField(max_length=40)</span><br /><span style="color:#808080;">    def __unicode__(self):</span><br /><span style="color:#808080;">        return self.teamname</span><br /><span style="color:#808080;">    class Meta:</span><br /><span style="color:#808080;">        verbose_name_plural = &quot;Teams&quot;</span><br /><span style="color:#808080;"></span></pre>
+</div>
+<p>However, with the information in this simple model - I should be able to generate a league table, with the following fields:<br />
+<table border="0">
+<tbody>
+<tr>
+<th>Team</th>
+<p>
+<th>Played #</th>
+<p>
+<th>Won</th>
+<p>
+<th>Drawn</th>
+<p>
+<th>Lost</th>
+<p>
+<th>Goals For</th>
+<p>
+<th>Goals Against</th>
+<p>
+<th>Goal Difference</th>
+<p>
+<th>Points</th>
+<p></tr>
+<p></tbody>
+</table>
+<p>So how to put this into a Django App?  Well I need some advice, as my original method was to edit the save() function of the model to input fields into a new model - however, I should be editing things at the form level.  I'd also like a 'generate league' method, rather than a method where a league is generated at the end of each score addition.  The main advantages of this approach is that I can:
+<ul>	
+<li>Generate the League from existing score data.</li>
+<p>	
+<li>Future Users can generate the League from their data.</li>
+<p>	
+<li>Leagues can be generated at the end of each 'gameweek' - rather than just at the end of each game.</li>
+<p></ul>
+<p>Django is a fantastic python framework that I'm immediately getting to grips with - but as this kind of application (simple as it is) - is one that's scalable and may be useful to many other users.. I want to get it right from the start.</p>
+<p>I'll be tagging the posts with 'djangoleague' if you want to keep up with development - and if anyone wants to use the project/help me out with it - please post in the comments and I'll get back to you.</p>

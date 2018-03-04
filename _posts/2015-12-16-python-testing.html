@@ -1,0 +1,35 @@
+---
+layout: post
+title: Python testing
+date: 2015-12-16 10:59:33.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags:
+- heatmiserV3
+- home-assistant
+- pyserial
+- python
+meta:
+  _edit_last: '1'
+  _wpas_done_all: '1'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451308853;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1855;}i:1;a:1:{s:2:"id";i:1824;}i:2;a:1:{s:2:"id";i:1812;}}}}
+  _gtm_vars: a:0:{}
+  _wpas_mess: Python testing advice
+  _publicize_twitter_user: "@andylockran"
+  _wpas_skip_9106205: '1'
+  dsq_thread_id: '4408430922'
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>I recently produced a new python module for interacting with heatmiser thermostats using version 3 of their protocol.  I have it setup on <a target="_blank" href="https://github.com/andylockran/heatmiserV3">github</a>, and have started writing some unit tests to make sure I don't break it, as it's now a dependency of the wonderful <a target="_blank" href="https://home-assistant.io">https://home-assistant.io</a>.</p>
+<p>My main concern is that the module currently only works on python3 due to the datatype differences in the pyserial module.  Essentially in the python2 code, it's possible to pass a string of bytes to the pyserial serial.write() command, but in python3 you need to prepare a bytes datatype to pass to the module.</p>
+<p>I want to capture this in my tests, rather than just write an if/else based on the version of python being used.  If you can make any recommendations on how best I achieve this, it would be much appreciated.</p>

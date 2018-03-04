@@ -1,0 +1,93 @@
+---
+layout: post
+title: Setting up a PXE Server
+date: 2009-02-12 12:22:25.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '242879578'
+  blr_date: '2011-10-11'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451244837;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:57;}i:1;a:1:{s:2:"id";i:155;}i:2;a:1:{s:2:"id";i:131;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<blockquote>The following article was originally published @ <a href="http://www.debian-administration.org/articles/478">http://www.debian-administration.org/articles/478</a></p></blockquote>
+<p>If you're looking to perform a lot of system recovery, or system installation, then network booting with PXE is ideal.  PXE allows you to boot up a system and have it automatically get an IP address via DHCP and start booting a kernel over the network.</p>
+<p>PXE itself stands for "Pre-boot eXecution Environment", which describes how it works in the sense that the clients using it haven't booted in a traditional manner.</p>
+<p>In order to use PXE you need to setup a boot-server which will allow client systems to :
+<ul>	
+<li>Request an IP address (via <abbr title="Dynamic Host Control Protocol">DHCP</abbr>)</li>
+<p>	
+<li>Download a kernel (via <abbr title="Trivial File Transfer Protocol">TFTP</abbr>)</li>
+<p></ul>
+<p>With both of these services in place any system which supports PXE/network-booting (you might need to enable it in the BIOS) should be able to gain an IP address, fetch a kernel, and boot without an installed operating system.</p>
+<p>(This is ideal for systems which can't be booted by a traditional approach; for example your new AMD-64 system which doesn't have a CD/DVD drive!)</p>
+<p><strong>Our Setup</strong><br />For the purposes of this article we'll assume:
+<ul>	
+<li>We're working with a small network 192.168.1.0/24</li>
+<p>	
+<li>We'll allow all local machines to boot and get an IP address via DHCP from the range 196.168.1.70-192.168.1.100</li>
+<p>	
+<li>Our "boot-server" is the host "itchy" with IP address 192.168.1.50</li>
+<p>	
+<li>We will serve the same kernel to each host.</li>
+<p></ul>
+<p>In our example we'll configure a PXE-server which will allow remote systems to run the Debian Etch installer, but nothing here is specific to that.  PXE allows you to configure a system to boot from an arbitrary kernel (and matching ramdisk if you wish to use one).  With the correct configuration you can even cause the clients to mount a remote file-system via NFS and have a diskless thin-client system.<br /><strong>TFTP Setup</strong><br />TFTP is a very simple file-transfer protocol, which is very similar to FTP but which doesn't use any kind of authentication.  If you're not already running a TFTP server you can install one by running:
+<pre>root@itchy:~# apt-get install tftpd-hpa</pre>
+<p>Once installed you'll need to enable it by editing the file <tt>/etc/default/tftpd-hpa</tt>.  You should change <tt>RUN_DAEMON</tt> to yes, leaving you with contents like these:
+<pre>#Defaults for tftpd-hpa<br />RUN_DAEMON="yes"<br />OPTIONS="-l -s /var/lib/tftpboot"</pre>
+<p>Now create the root directory, if it is missing, and start the server:
+<pre>root@itchy:~# mkdir -p /var/lib/tftpboot<br />root@itchy:~# /etc/init.d/tftpd-hpa start<br />Starting HPA's tftpd: in.tftpd.</pre>
+<p>Once our systems have retrieved an IP address via DHCP they will request files from beneath the <tt>/var/lib/tftpboot</tt> root directory.  We'll come back to the contents of this directory shortly.<br /><strong>DHCP Setup</strong><br />If you don't already have a DHCP server configured upon your LAN you'll need to install one.  If you're using a small home router, or similar, to provide local DHCP services you <strong>must</strong> disable this first.  (Since we require the DHCP server to pass back some extra options to clients which the majority of routers won't allow).</p>
+<p>Discussing a full DHCP installation is mostly beyond the scope of this introduction but the thing we're trying to do is fairly simple.  The goal of the DHCP server in this setup is twofold:
+<ul>	
+<li>We obviously want to use it to allow clients to request and receive an IP address.</li>
+<p>	
+<li>We want to cause the DHCP "answer" to give some extra details to the clients which are requesting an address:
+<ul />	</li>
+<li>The address of the TFTP server.</li>
+<p>	
+<li>The initial filename to request from the TFTP server.</li>
+<p></ul>
+<p>The most common DHCP server is <a href="http://packages.debian.org/dhcp3-server">the dhcp-server package</a>, and you can install this by running:
+<pre>root@itchy:~# apt-get install dhcp3-server</pre>
+<p>Once installed the server is configured in the file <tt>/etc/dhcp3/dhcpd.conf</tt>, and there are a lot of available options described there.  For our example we'll use the following configuration:
+<pre>option domain-name-servers 62.31.64.39, 62.31.112.39;<br />default-lease-time 86400;<br />max-lease-time 604800;<br />authoritative;<br /><br />subnet 192.168.1.0 netmask 255.255.255.0 {<br />        range 192.168.1.70 192.168.1.100;<br />        filename "pxelinux.0";<br />        next-server 192.168.1.50;<br />        option subnet-mask 255.255.255.0;<br />        option broadcast-address 192.168.1.255;<br />        option routers 192.168.1.1;<br />}</pre>
+<p>Here we've configured the server to give out IP addresses from the range 192.168.1.70-100, set the default gateway to be 192.168.1.1 and use our ISP's nameservers.</p>
+<p>We've also used <tt>next-server</tt> to point to the TFTP server we're using (which is the same host as our DHCP server, but doesn't need to be).  We've chosen the default name of <tt>pxelinux.0</tt> as the name of the file for booting clients to request.</p>
+<p><strong>Using <tt>dnsmasq</tt> instead</strong></p>
+<p>Personally I use the <a href="http://packages.debian.org/dnsmasq">dnsmasq</a> package to provide DHCP services upon my LAN, since this is small and simple and provides other useful abilities, setting up PXE booting with <tt>dnsmasq</tt> just requires the addition of the following line to <tt>/etc/dnsmasq.conf</tt>:
+<pre>dhcp-boot=pxelinux.0,itchy,192.168.1.50</pre>
+<p>(Again we've setup the filename along with the name and IP address of the TFTP server which is "itchy" / 192.168.1.50 in this example)</p>
+<p>Restarting the service after this change is as simple as:
+<pre>root@itchy:~# /etc/init.d/dnsmasq restart<br />Restarting DNS forwarder and DHCP server: dnsmasq.</pre>
+<p><strong>PXE Configuration</strong><br />Now that we've configured the TFTP and DHCP servers we need to go back and complete the configuration.  By default when a client boots up it will use its own MAC address to specify which configuration file to read - however after trying several options it will fall back to requesting a <tt>default</tt> file.</p>
+<p>We need to create that that file, which will contain the list of kernels which are available to boot, we'll firstly need to create a directory to hold it:
+<pre>root@itchy:~# mkdir /var/lib/tftpboot/pxelinux.cfg</pre>
+<p>Now save the following as <tt>/var/lib/tftpboot/pxelinux.cfg/default</tt>:
+<pre>DISPLAY boot.txt<br /><br />DEFAULT etch_i386_install<br /><br />LABEL etch_i386_install<br />        kernel debian/etch/i386/linux<br />        append vga=normal initrd=debian/etch/i386/initrd.gz  --<br />LABEL etch_i386_linux<br />        kernel debian/etch/i386/linux<br />        append vga=normal initrd=debian/etch/i386/initrd.gz  --<br /><br />LABEL etch_i386_expert<br />        kernel debian/etch/i386/linux<br />        append priority=low vga=normal initrd=debian/etch/i386/initrd.gz  --<br /><br />LABEL etch_i386_rescue<br />        kernel debian/etch/i386/linux<br />        append vga=normal initrd=debian/etch/i386/initrd.gz  rescue/enable=true --<br /><br />PROMPT 1<br />TIMEOUT 0</pre>
+<p>This file instructs the client to display the contents of the file <tt>boot.txt</tt> so create that too:
+<pre>- Boot Menu -<br />=============<br /><br />etch_i386_install<br />etch_i386_linux<br />etch_i386_expert<br />etch_i386_rescue</pre>
+<p>The only remaining job is to download the official Etch installer kernel and associated files and save them in the directories specified in the <tt>default</tt> file we created:
+<pre>root@itchy:~# cd /var/lib/tftpboot/<br />root@itchy:~# wget <a rel="nofollow" href="http://ftp.uk.debian.org/debian/dists/etch/main/installer-i386/current/images/netboot/debian-installer/i386/pxelinux.0
+">http://ftp.uk.debian.org/debian/dists/etch/main/installer-i386/current/images/netboot/debian-installer/i386/pxelinux.0</a><br /><br />root@itchy:~# mkdir -p /var/lib/tftpboot/debian/etch/i386<br />root@itchy:~# cd /var/lib/tftpboot/debian/etch/i386<br />root@itchy:~# wget <a rel="nofollow" href="http://ftp.uk.debian.org/debian/dists/etch/main/installer-i386/current/images/netboot/debian-installer/i386/linux">http://ftp.uk.debian.org/debian/dists/etch/main/installer-i386/current/images/netboot/debian-installer/i386/linux</a><br />root@itchy:~# wget <a rel="nofollow" href="http://ftp.uk.debian.org/debian/dists/etch/main/installer-i386/current/images/netboot/debian-installer/i386/initrd.gz">http://ftp.uk.debian.org/debian/dists/etch/main/installer-i386/current/images/netboot/debian-installer/i386/initrd.gz</a></pre>
+<p>When these commands have been completed we'll have the following structure:
+<pre>root@itchy:~# tree /var/lib/tftpboot/<br />/var/lib/tftpboot/<br />|-- boot.txt<br />|-- debian<br />|   `-- etch<br />|       `-- i386<br />|           |-- initrd.gz<br />|           `-- linux<br />|-- pxelinux.0<br />`-- pxelinux.cfg<br />    `-- default<br /><br />4 directories, 5 files</pre>
+<p>(We only used <tt>debian/etch</tt> here in case we want to offer other installers in the future.  You can put everything in one directory if you wish, just update <tt>pxelinux.cfg/default</tt> to match.)</p>
+<p>We should now be ready to test the setup.</p>
+<p>We've installed a <tt>pxelinux.0</tt> file which will instruct booting clients to request <tt>pxelinux.cfg/default</tt>.  This will then make a list of boot options available, which are displayed by the simple boot menu file we created.</p>
+<p>The files which are used for booting are stored beneath the TFTP root directory and thus accessible to booting clients.<br /><strong>Sample Run</strong><br />A sample remote boot looks like this:
+<pre>PXE entry point found (we hope) at 9AE5:00D6<br /><br />My IP address seems to be C0A80146 192.168.1.70<br /><br />FTFTP prefix:<br /><br />Trying to load: pxelinux.cfg/01-00-14-22-a1-53-85<br /><br />Trying to load: pxelinux.cfg/C0A80146<br /><br />Trying to load: pxelinux.cfg/C0A8014<br /><br />Trying to load: pxelinux.cfg/C0A801<br /><br />Trying to load: pxelinux.cfg/C0A80<br /><br />Trying to load: pxelinux.cfg/C0A8<br /><br />Trying to load: pxelinux.cfg/C0A<br /><br />Trying to load: pxelinux.cfg/C0<br /><br />Trying to load: pxelinux.cfg/C<br /><br />Trying to load: pxelinux.cfg/default<br /><br />- Boot Menu -<br /><br />=============<br /><br />etch_i386_install<br /><br />etch_i386_linux<br /><br />etch_i386_expert<br /><br />etch_i386_rescue</pre>
+<p>As you can see the system here attempted to load several configuration files, based upon its MAC address (01-00-14-22-a1-53-85) initially then falling back to the octets in the IP address it was given by DHCP (192.167.1.70).</p>
+<p>Finally it managed to load a working configuration using the last-chance  <tt>default</tt> file we created.  This in turn instructed it to show the boot menu we created.</p>
+<p>From here on the system will boot into whichever kernel you specify.  (We could configure the system to timeout here and just boot into a default option, but we didn't.)<br />From here on you should understand how PXE can be used to boot an arbitrary kernel and initial ramdisk.  Later we'll look at mounting a remote file-system over NFS to provide a diskless thin-client.</p>

@@ -1,0 +1,48 @@
+---
+layout: post
+title: Heatmiser Component
+date: 2015-12-16 11:22:22.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags:
+- heatmiser
+- heatmiserV3
+- home-assistant
+- python
+meta:
+  _edit_last: '1'
+  _publicize_twitter_user: "@andylockran"
+  _wpas_done_all: '1'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451711173;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1812;}i:1;a:1:{s:2:"id";i:1855;}i:2;a:1:{s:2:"id";i:1824;}}}}
+  _gtm_vars: a:0:{}
+  _wpas_mess: Heatmiser Component
+  _wpas_skip_9106205: '1'
+  dsq_thread_id: '4408475721'
+  _wpas_skip_10539271: '1'
+  _wpas_skip_10539259: '1'
+  _wpas_skip_9106195: '1'
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>Now I've got the <a target="_blank" href="https://home-assistant.io/components/thermostat.heatmiser/">heatmiser component</a> working with home-assistant, I want to ready a v2 release which will enable it to also work with other devices other than just heatmiser thermostats.</p>
+<p>There are two categories of component:</p>
+<ol>
+<li>Master - the UH1 device, which is the serial interface from the home-automation system to the thermostats.</li>
+<li>Slave - currently just the thermostats, but will also be timing switches, humidity sensors .etc</li>
+</ol>
+<p>Currently the system is setup as below in heatmiser.py, with the interface to the serial port set in the setup_platform() method of the heatmiser interface:</p>
+<p><a href="https://www.andyloughran.co.uk/wp-content/uploads/2015/12/Screen-Shot-2015-12-16-at-11.10.50.png"><img class="aligncenter wp-image-1864 size-medium" src="{{ site.baseurl }}/assets/Screen-Shot-2015-12-16-at-11.10.50-300x102.png" alt="Screen Shot 2015-12-16 at 11.10.50" width="300" height="102" /></a></p>
+<p>As you can see, I've left the hot water out.  Because the serial port is held open my <a target="_blank" href="https://github.com/balloob/home-assistant/blob/dev/homeassistant/components/thermostat/heatmiser.py">heatmiser.py</a> there's likely to be a contention issue.</p>
+<p>What I'd like to do is split the UH1 serial port out into a separate component, that opens up the serial port and makes it available to other components, I'd then set the UH1 component as a dependency of <a target="_blank" href="https://github.com/balloob/home-assistant/blob/dev/homeassistant/components/thermostat/heatmiser.py">heatmiser.py</a>.  I could then create a switch device for heatmiserHW.py to control the TM1 timing box.  This solution would look more like:</p>
+<p><a href="https://www.andyloughran.co.uk/wp-content/uploads/2015/12/Screen-Shot-2015-12-16-at-11.10.59.png"><img class="aligncenter wp-image-1865 size-medium" src="{{ site.baseurl }}/assets/Screen-Shot-2015-12-16-at-11.10.59-300x170.png" alt="Screen Shot 2015-12-16 at 11.10.59" width="300" height="170" /></a></p>
+<p>The final option is that I simply add the hotwater device as part of the heatmiser component, - i.e. create a new class for TM1 in <a target="_blank" href="https://github.com/balloob/home-assistant/blob/dev/homeassistant/components/thermostat/heatmiser.py">heatmiser.py</a> that doesn't have the Thermostat base class, but one of a switch.  The thing stopping me from picking this option is the folder structure.  <a target="_blank" href="https://github.com/balloob/home-assistant/blob/dev/homeassistant/components/thermostat/heatmiser.py">heatmiser.py</a> currently lives in components/thermostats/ - and if I were to add a switch class in here it could start getting messy.</p>
+<p>Advice please :)</p>

@@ -1,0 +1,43 @@
+---
+layout: post
+title: Python to the rescue for home automation
+date: 2015-12-16 10:52:25.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags:
+- automation
+- control4
+- heatmiser
+- heatmiserV3
+- home-assistant
+- python
+meta:
+  _edit_last: '1'
+  _gtm_vars: a:0:{}
+  _publicize_twitter_user: "@andylockran"
+  _wpas_done_all: '1'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451988323;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1812;}i:1;a:1:{s:2:"id";i:1824;}i:2;a:1:{s:2:"id";i:1854;}}}}
+  dsq_thread_id: '4408413234'
+  _wpas_skip_10539271: '1'
+  _wpas_skip_9106205: '1'
+  _wpas_skip_10539259: '1'
+  _wpas_skip_9106195: '1'
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>Those of you who've read my most recent ramblings will have come across the work I've been doing to try and get my home Control4 automation system connected up with my hot water timing switch.  It's been nice to hack around with a new language, and also to better understand the low-level bit-level operations that are required to interface with the thermostats and timers.  What hasn't been nice is the wall of silence from Control4 on offering assistance, despite the fact that I expect my work to add value to their product.</p>
+<p>To take a step back and look at the wider home-automation environment would begin to give some clue as to the state of affairs.  Home automation is the realm of the wealthy or the geeky - as up until relatively recently each environment has required fairly time-intensive and bespoke programming.  Control4 has a whole market built up around providing this bespoke service, so to start to allow geeks to work on their products for free has the potential to undercut their partner network.</p>
+<p>Instead of focusing on 'whole house' automation, new companies have come into the market by offering automation of a 'single' element of your home.  Nest for heating, Hue for lighting .etc  The challenge here is that each of the elements are operating in their own silo.  Automation isn't about just having things connected, it's about intelligent connections and the concept of pre-programmed or dynamic 'scenes' - that'll set all the devices based on some kind of intelligence.</p>
+<p><a href="https://www.andyloughran.co.uk/wp-content/uploads/2015/12/Screen-Shot-2015-12-16-at-10.28.02.png"><img class="aligncenter wp-image-1857 size-large" src="{{ site.baseurl }}/assets/Screen-Shot-2015-12-16-at-10.28.02-1024x423.png" alt="Home-assistant.io" width="584" height="241" /></a></p>
+<p>Taking these new silo'd modules and fitting them into an overall solution is <a target="_blank" href="https://home-assistant.io/">https://home-assistant.io/</a>.  The beauty of the architecture is that each of the modules is not only being kept completely independent, but rather than producing specific modules for the platform, it leverages the pre-existing python modules.  Of course, there's a little bit of interface code to import the module and expose the right values to the system - but it's limited to purely an interface.  The beauty is that there are already a load of python libraries out there, and even last week I was able to both convert some pre-existing python scripts into a <a target="_blank" href="https://pypi.python.org/pypi/heatmiserV3/">heatmiserV3 module</a>, to then integrate with home assistant.</p>
+<p>The other advantage of home-assistant that I'm starting to consider is the ability for the system itself to be 'cloud' based, rather than hosted at home.  For many of the modules, this system is a true 'internet of things' - as everything is web-connected.  Unfortunately, my heatmiser serial communication requires a local network connection (and isn't encrypted/protected, so wouldn't be straightforward to open up to the internet) - so it's more an 'intranet of things'.</p>
+<p>Either way, it's an exciting evolution of home-automation software.  In a not dissimilar way to IFTTT.com, I expect 'recipes' with pre-configured relationships between two devices will start to propagate - and hopefully more people can get the financial and energy benefits of the new wave of home automation.</p>

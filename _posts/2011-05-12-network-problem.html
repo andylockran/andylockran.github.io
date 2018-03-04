@@ -1,0 +1,36 @@
+---
+layout: post
+title: Network Problem
+date: 2011-05-12 12:43:39.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags:
+- cable modem
+- internet
+- network
+- networking
+- router
+meta:
+  _edit_last: '1'
+  dsq_thread_id: '301859625'
+  blr_date: '2011-10-18'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1450892620;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1597;}i:1;a:1:{s:2:"id";i:128;}i:2;a:1:{s:2:"id";i:60;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>I've been having a really strange networking issue at the office for the past few months.  The reason I'm posting here, rather than in IRC or a Forum, is that it's quite an interesting problem, and I'd quite like to post the solution.  I've contacted my Internet Provider, and unfortunately they don't seem to be able to comprehend the problem, let alone work out a way of diagnosing it.</p>
+<p>We have 8/9 devices sharing our internet connection in the office, across wireless and wired, which pass through our Debian Router, then through a cable modem to the Internet.  In order to make sure the problem was not with the router.  The same symptoms occurred with a direct connection to the cable modem.</p>
+<p>The issues is as follows:</p>
+<p>Our internet connection doesn't appear to drop.  According to our ISP our modem has been connetced fine for the last 15 days, and they 'can see no problem with our line.'  When downloading a large file (&lt;100MB) or streaming Youtube videos, the connection just stops.  The video stops downloading or, in the case of the files, the connection just stops.  This is also evident when running large downloads through apt (such as do-release-upgrade) - during the file download sometimes it just stops downloading - yet on a cancel and restart it continues to download just fine.</p>
+<p>I'd like to work out how I can get some documentary evidence of this connection hanging - what is the proper technical term for it - and hopefully find a way to reproduce the problem in a consistent manner.  I have OSX, Linux, and Windows machines all exhibiting the same behaviour - so I'm pretty sure it's not a clientside bug.</p>
+<p>If you can help me out, please let me know in the comments below.</p>
+<p>Cheers! and Thanks in Advance.</p>

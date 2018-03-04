@@ -1,0 +1,34 @@
+---
+layout: post
+title: Music Mirror
+date: 2008-01-21 01:03:42.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  blr_date: '2011-09-29'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1448584878;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:22;}i:1;a:1:{s:2:"id";i:233;}i:2;a:1:{s:2:"id";i:1638;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>I have a nice Music Library of all my CDs encoded in the *.flac format.  I like it, so I don't want to get rid of it.</p>
+<p>However, Mr. iPod doesn't like it - so I want to keep a mirror of my Music Library in the *.mp3 file format.</p>
+<p>I'm not much cop at bash scripting.. but here's a shell of what I've got so far. (music-convertor.sh)<br />
+<blockquote>
+<blockquote> #!/bin/sh<br />##Andy Loughran<br />##Mirror .flac library to mp3</p>
+<p>for i in ~/Music/*/*.flac;<br />do lame -b 192 "$i";<br />mkdir ~/mp3Music/"$(pwd)"/;<br />mv *.mp3 ~/mp3Music/"$(pwd)";<br />done</p></blockquote>
+<p></p></blockquote>
+<p>It doesn't work yet - but that's my immediate comprehension of the sort of thing I'd like.</p>
+<p>I would quite like it to rsync the library - so only encode the new files.. I guess this could be done by getting a list of all the files in each directory and just diffing the two to get the new files.. but there's bound to be a better way.</p>
+<p>Therefore some questions -</p>
+<p>Should I be using bash-scripting to do this.. is it an efficient use of resources, and if so can anyone provide me with a way that works..?</p>
+<p>Is there a utility that already does this?</p>

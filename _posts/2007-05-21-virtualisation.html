@@ -1,0 +1,33 @@
+---
+layout: post
+title: Virtualisation
+date: 2007-05-21 22:05:34.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  blr_date: '2011-10-04'
+  dsq_thread_id: '2834444268'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1450690795;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:299;}i:1;a:1:{s:2:"id";i:318;}i:2;a:1:{s:2:"id";i:216;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>I thought I'd write a little post on my experiences with the virtualisation transfer.</p>
+<p>The first thing I did was stick in a different HD, so I could set the Virtual Machine up...  my initial plan was to run the main VM software off this disk, and then have the other VMs mounted on my old HD.</p>
+<p>I started of by installing ubuntu-server (as it was the only CD I had available to me, and I didn't have any spare CDs to make a new boot disk)..  This went well, in so far as I got it installed, but looking at Xen, decided the best thing to do would be to run it off the CDs.</p>
+<p>At this point, my brother returned home so I was able to nab a couple of blank CDs off him.  Stuck Xen on them and was away.   I quite like Xen, in that it was all very easy to configure, as with my past server being CentOS, the Xen OS appeared to be very similar.  It recognised my network card right away, which was excellent, however, I'd had issues with getting my atheros card to work in Centos, and as after 30 minutes of trying I was getting nowhere close to finding a rpm for the madwifi drivers for Xen, I decided to give up and go back to ubuntu.</p>
+<p>I went back to ubuntu and installed it with 192.168.0.100 as my router assiged address for the wireless, and 192.168.10.3 for my room's switch.  (I don't see the point in sending everything up and down a flight of stairs to the router, when I can create a small network to run all my devices off in the study).  I then installed VMware Server.</p>
+<p>I'd only used the player before, to run a WinXP machine inside Gentoo for some development work I was doing.  This worked out nicely, and the server client software allowed me far more freedom than the player does.  It worked fantastically well, and if I was going to be creating a server from scratch, this is definately how I'd have done it.</p>
+<p>However, issues came when I had to transfer data off my old server into the VMs, therefore I went with option 3.</p>
+<p>Option 3 was one that never really occured to me before, as I didn't want to be running VMs off my current server (as it'd just add extra load) but I soon realised this was to be the best approach.</p>
+<p>The reason why I'd say this was the best approach, is that it makes it so much easier to move stuff from a live-server into a VM than having to purely copy stuff of an empty box.  So far I've just migrated the mail server to an ubuntu-zimbra VM.  The next stage will be to move my mysql databases into a separate VM, which is fairly straightforward (my only concern being that i'll have to create the same username/password combinations on the new server that were on the old, or else many web-apps may start to not work).  Once that's done it's a case of copying most of the other data across, then I can simply put in another HD, stick ubuntu and VMserver on that - then load my VMs, all of which can probably be acheived with less than 30 minutes downtime.</p>
+<p>I would love to be using Xen, as VMware isn't open source - but for the purposes of what I'm aiming to do, on the hardware I have I'm reasonably pleased with the current setup.  I should imagine now that I'm post-uni I'll be able to save up something in order to get myself a better server (with virtualisation built into the chip), and my own place (where I am able to physically attach my server to the router - then hopefully a Xen set-up should be on the cards.</p>

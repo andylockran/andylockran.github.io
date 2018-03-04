@@ -1,0 +1,44 @@
+---
+layout: post
+title: Digital Archiving
+date: 2007-09-26 19:33:43.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  blr_date: '2011-10-14'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1446247558;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1688;}i:1;a:1:{s:2:"id";i:36;}i:2;a:1:{s:2:"id";i:6;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>It's more or less been an accident that I've come across the massive importance of digital archiving.  Given the masses amount of quality productions that have been lost in the BBC archive over the years (analog version), it'd be sensible to take a look at the structure and policies of the digital archive before it's too late to change files from a certain format.</p>
+<p>The reason that this discipline has been brought to my attention is my memership of the OpenDocumentFellowship.  Despite not being an active member, I strive to keep up to date with issues on the mailing list, and my two years' worth of archived subscription is a great resource to see the development of the OpenDocument format over the period.</p>
+<p>More recently, my Granddad (this is getting tenuous) was elected to a board at the World Ship Society on digitizing their archive.  The society own a number of unique and sentimental documents.  Some of them are valuable, and some of them are sentimental, but the policy of the society is to digitise all their data.  This is where, in my humble opinion, things start to get confusing.</p>
+<p>As a true Anorak in his field, my Granddad has created,(over a period of nearly sixty years), the largest archive of Flags and Funnels.  About 15 years ago, I helped my Dad set him up with a computer, running Lotus Smartsuite and Windows 3.1, to catalog his data in a Lotus Approach Database.  Dad created a fairly nice looking GUI for it, so that my Granddad was able to understand it, and since then he's been able to enter about 6,000 entries a year.  He's still got the complete collection on recipe cards, but the digital library is starting to catch up.</p>
+<p>Back in 1999, we decided that the  486 he was using wasn't really up to the task, so decided to upgrade him to Windows 98.  There were no massive problems, I remember spending about 4 hours installing Lotsuite from about 35 2.5" floppies.  It was a boring task, but as always, I was just happy to help.</p>
+<p>That upgrade went fine, he'd no masses of data, and what he had was backed up to ZIP drive.  Digital Archive 1 - badluck - 0.</p>
+<p>Now, the bigger problem came last year.  He decided he'd like a laptop, and his desktop PC had lasted him well enough, but searching through his database really slowed down the computer.  Since there was so much power packed into laptops, I didn't think it'd be a bad idea, so for Christmas '06, we got him a laptop.</p>
+<p>Lotus Smartsuite, by now, the product his database was tied to had died a death since it's fairly widespread usage in the early to mid 90s.  I managed to get a copy off Lotus which was downloaded at home and installed and no problems.  I then installed it on the laptop, restored the database from a backup and loaded it up on screen.  It looked great, all the items came up right, and the flags and the funnels had been pulled correctly from their freelance graphics file.</p>
+<p>"Hang on" - says Granddad.</p>
+<p>"What's up?" - says I.</p>
+<p>"The colours, Andy.  They're wrong" - says he.</p>
+<p>"How do you mean Granddad?" says I.</p>
+<p>Well, as it turns out, his windows 3.1 had only supported 256 colours.  Windows 98 compatibility was similar, but when we upgraded to XP, it decided to render the colours differently.  They were all completely wrong.</p>
+<p>Now, for information's sake, there is a feature in XP called "compatibility mode" which means you can run older programs on XP.  Using compatibility mode, I was able to run Lotsuite in 256 colours - and this fixed the problem.</p>
+<p>However, I now don't sleep at night.</p>
+<p>What would have happened if my Granddad had been unable to notice the difference in colour?  Would "Ackers &amp; Grundy" have eternally been granted the wrong colour on their funnel?  (I agree with you all when you say, does it really matter in the grand scale of things?).  Well yes, and no.</p>
+<p>For the "maritime vexiologists" (as my delightful Granddad's hobby is academically know) it is a massive issue - and had he got the colours wrong it would possibly invalidate the authenticity of his entire collection - which would be a horrible way to mark 60 years work.  For the rest of us non-maritime types, it marks a horrible nightmare that we've yet to really face.  Even if we are careful at keeping our documents backed up and safe, we are not free from the publishers changing the software that reads them.  To me, there is only one solution.</p>
+<p><strong>Open Standards</strong></p>
+<p>Whilst there are stories in this blog and anecdotes that other people can relate to, the best way of ensuring your data lives long is to separate it from a single vendor.  If you are able to choose an openly documented standard and an open source application with which to read this standard, not only are you able to save the data that you have spent time creating, but you are also entitled (in most cases, please check the specific license) to also archive the software you created you data with.</p>
+<p>Looking back, there is only one other thing that i would have changed in the original design of the database.  At the time, the Lotus Smartsuite database was based upon an open file format of its time.  It was DBF (Database Format).  I'm not sure how much of this format has lasted and been included/recognised by ODB (OpenDataBase) but it had it's place at the time, and the thing that killed it was the lack of MS compatibility.  Let's hope that MS do not make the same mistake this time and fail to achknowledge ODF (when they're finally forced to).</p>
+<p>The design change (sorry, I went off on a tangent there) would be to store the 6 digit hash of the colours used, based upon the HTML hex code.  Whilst text can be used to preserve data, it should be - as text can be stored and read easiest by a computer, and probably always will be.  Sure, if I were backing up a first-print of a bible, I'd scan it in too - but where possible, store the text.</p>
+<p>I'm currently working on opening up my Granddad's database so that it's in a Web browsable format for the benefit of the World Ship Society Membership.  I have been able to open the dbf file with OpenOffice Base, and export it into a mysql database, now I need to work on making sure the pictures render in the correct format (and work out how to pull them into the database).  If anyone is interested (or has experience) in exporting Lotus Approach databases into MYSQL (and I'm hoping to write a php interface once all the data is safe), please leave a comment below.  I'd be happy to hear from you.</p>

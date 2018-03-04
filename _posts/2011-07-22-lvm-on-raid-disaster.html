@@ -1,0 +1,92 @@
+---
+layout: post
+title: LVM on RAID Disaster
+date: 2011-07-22 09:04:51.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  _edit_last: '1'
+  _wpas_done_all: '1'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451539908;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:248;}i:1;a:1:{s:2:"id";i:67;}i:2;a:1:{s:2:"id";i:308;}}}}
+  _gtm_vars: a:0:{}
+  _publicize_twitter_user: "@andylockran"
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>Recently I had a small disaster.  I don't want to copy stuff ad verbatim - but the following link provided me with the solution:</p>
+<p><a href="http://www.barryodonovan.com/index.php/2007/12/08/lvm-recovery">http://www.barryodonovan.com/index.php/2007/12/08/lvm-recovery</a></p>
+<p>I want to thank the author lots - LVM is something I've not had much experience with - and these instructions helped save us a lot of time.</p>
+<p>Here they are:</p>
+<div class="entry-content">
+<p>Yesterday disaster struck – during a CentOS/RedHat installation, the installer asked (not verbatim): “Cannot read partition information for <tt>/dev/sda</tt>. The drive must be initialized before continuing.”.</p>
+<p>Now on this particular server, <tt>sda</tt> and <tt>sdb</tt> were/are a RAID1 (containing the OS) and a RAID5 partition respectively and <tt>sdc</tt> was/is a 4TB RAID5 partition from an externally attached disk chassis. This was a server re-installation and all data from <tt>sda</tt> and <tt>sdb</tt> had multiple snapshots off site. <tt>sdc</tt> had no backups of its 4TBs of data.</p>
+<p>The installer discovered the drives in a different order and <tt>sda</tt> became the externally attached drive. I, believing it to be the internal RAID1 array, allowed the installer to initialise it. Oh shit…</p>
+<p>Now this wouldn’t be the end of the world. It wasn’t backed up because a copy of the data exists on removable drives in the UK. It would mean someone flying in with the drives, handing them off to me at the airport, bringing them to the data center and copying all the data back. Then returning the drives to the UK again. A major inconvenience. And it’s also an embarrassment as I should have ensured that <tt>sda</tt> is what I thought it was via the installers other screens.</p>
+<p>Anyway – from what I could make out, the installer initialised the drive with a single partition spanning the entire drive.</p>
+<p>Once I got the operating system reinstalled, I needed to try and recover the LVM partitions. There’s not a whole lot of obvious information on the Internet for this and hence why I’m writing this post.</p>
+<p>The first thing I needed to do was recreate the physical volume. Now, as I said above, I had backups of the original operating system. LVM creates a file containing the metadata of each volume group in <tt>/etc/lvm/backup</tt> in a file named the same as the volume group name. In this file, there is a section listing the physical volumes and their ids that make up the volume group. For example (the id is fabricated):</p>
+<pre> 
+physical_volumes {
+        pv0 {
+                id = "fvrw-GHKde-hgbf43-JKBdew-rvKLJc-cewbn"
+                device = "/dev/sdc"     # Hint only
+
+                status = ["ALLOCATABLE"]
+                pe_start = 384
+                pe_count = 1072319      # 4.09057 Terabytes
+        }
+}</pre>
+<p>Note that after I realised my mistake, I installed the OS on the correct partition and after booting, the external drive became <tt>/dev/sdc</tt><sup>*</sup> again. Now, to recreate the physical volume <strong>with the same id</strong>, I tried:</p>
+<pre> 
+# pvcreate -u fvrw-GHKde-hgbf43-JKBdew-rvKLJc-cewbn /dev/sdc
+  Device /dev/sdc not found (or ignored by filtering).</pre>
+<p>Eh? By turning on verbosity, you find the reason among a few hundred lines of debugging:</p>
+<pre> 
+# pvcreate -vvvv -u fvrw-GHKde-hgbf43-JKBdew-rvKLJc-cewbn /dev/sdc
+...
+#filters/filter.c:121         /dev/sdc: Skipping: Partition table signature found
+#device/dev-io.c:486         Closed /dev/sdc
+#pvcreate.c:84   Device /dev/sdc not found (or ignored by filtering).</pre>
+<p>So pvcreate will not create a physical volume using the entire disk unless I remove partition(s) first. I do this with <tt>fdisk</tt> and try again:</p>
+<pre> 
+# pvcreate -u fvrw-GHKde-hgbf43-JKBdew-rvKLJc-cewbn /dev/sdc
+  Physical volume "/dev/sdc" successfully created</pre>
+<p>Great. Now to recreate the volume group on this physical volume:</p>
+<pre> 
+# vgcreate -v md1000 /dev/sdc
+    Wiping cache of LVM-capable devices
+    Adding physical volume '/dev/sdc' to volume group 'md1000'
+    Archiving volume group "md1000" metadata (seqno 0).
+    Creating volume group backup "/etc/lvm/backup/md1000" (seqno 1).
+  Volume group "md1000" successfully created</pre>
+<p>Now I have an “empty” volume group but with no logical volumes. I know all the data is there as the initialization didn’t format or wipe the drive. I’ve retrieved the LVM backup file called <tt>md1000</tt> and placed it in <tt>/tmp/lvm-md1000</tt>. When I try to restore it to the new volume group I get:</p>
+<pre> 
+# vgcfgrestore -f /tmp/lvm-md1000 md1000
+  /tmp/lvm-md1000: stat failed: Permission denied
+  Couldn't read volume group metadata.
+  Restore failed.</pre>
+<p>After a lot of messing, I copied it to <tt>/etc/lvm/backup/md1000</tt> and tried again:</p>
+<pre> 
+# vgcfgrestore -f /etc/lvm/backup/md1000 md1000
+  Restored volume group md1000</pre>
+<p>I don’t know if it was the location, the renaming or both but it worked.</p>
+<p>Now the last hurdle is that on a <tt>lvdisplay</tt>, the logical volumes show up but are marked as:</p>
+<pre> 
+  LV Status              NOT available</pre>
+<p>This is easily fixed by marking the logical volumes as available:</p>
+<pre> 
+#  vgchange -ay
+  2 logical volume(s) in volume group "md1000" now active</pre>
+<p>Agus sin é. My logical volumes are recovered with all data intact.</p>
+<p><sup>*</sup> <em>how these are assigned is not particularly relevant to this story.</em></p>
+</div>

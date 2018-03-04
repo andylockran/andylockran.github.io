@@ -1,0 +1,46 @@
+---
+layout: post
+title: Talk Talk, Listen Listen, Crack Crack.
+date: 2015-10-26 18:20:16.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  _edit_last: '1'
+  _publicize_twitter_user: "@andylockran"
+  _flattr_post_hidden: '0'
+  _flattr_post_customurl: ''
+  _wpas_mess: Talk Talk, Listen Listen, Crack Crack.
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1452044311;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:214;}i:1;a:1:{s:2:"id";i:204;}i:2;a:1:{s:2:"id";i:236;}}}}
+  _wpas_done_all: '1'
+  dsq_thread_id: '4261531032'
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>With the recent news that TalkTalk has suffered both a cyber-attack and ransom demand, tightening up online security is once again still at the bottom of everyone's agenda.</p>
+<p><img class="aligncenter size-medium wp-image-1813" src="{{ site.baseurl }}/assets/TalkTalk-logo-608x342-300x169.jpg" alt="TalkTalk" width="300" height="169" /></p>
+<p>Security just isn't sexy.  The default position in too many companies is to lock everything down to the nth degree, then open up seemingly minor ports and IP addresses for 'exceptions.'  I haven't read enough about the TalkTalk crack yet to put together any commentary on what happened there - but if you're reading this as someone in charge of your business' information security, here are a few pointers.</p>
+<h3>Authenticate your users properly</h3>
+<p><a href="http://www.bu.edu/tech/about/security-resources/bestpractice/auth/">Authentication</a> is the process of checking a user is who they say they are.  In most modern systems with a username/password combination you're assumed to be that person.  Think about adding two-factor authentication to add some spice; most people carry mobile phones now and authentication key managers like <a href="https://en.wikipedia.org/wiki/Google_Authenticator">Google Authenticator</a> will cost very little to integrate.  If you're not ready for that; then add in random checks via text messages or automated phone calls.</p>
+<h3>Check your authorisation logic.</h3>
+<p>Too often once a user is authenticated they get permissions to do anything; or nothing.  It's the old principle of protecting a castle or a hotel.  Too often we choose the castle method - securing the perimeter and then expecting everyone on the inside to be on our side.  Instead you should switch to a hotel permissions module; stop focusing on the perimeter and focus on your data packets - making sure individually only the right people can access them <em>for the right period of time.<strong> Your hotel manager disables your key at check-out time.</strong></em></p>
+<h3>Stop making 'exceptions' and change your global policy</h3>
+<p>Twitter, Facebook, Pinterest and other social networks are becoming the 'norm' - as are API connections to them.  Instead of locking down your environments and just opening up access to these 'safe' networks, review the reasons why these are regarded as 'safe' ahead of sites like the BBC, this site, or Ebaumsworld.  If your machine is going to be connecting to API services, then you should assume you're open up to the whole internet; who knows what could be passed down that API?  Have a global policy that reflects the requirements of your business, not the whims of your IT manager.</p>
+<h3>Run servers with a single role</h3>
+<p>If it's a database server, use it to serve a database.  Seems simple enough, but then you need to install SQL Server Studio so that your remote team can login and easily access it.  <strong>Don't. </strong>Secure it to the level required for your business usage, then allow your DBA team access only to the DB port.  They shouldn't need RDP access to the machine, that's a Systems Job, not DBA.</p>
+<h3>Change authentication details regularly.</h3>
+<p>It's a simple one, but never rely on a static password/passphrase or token.  If when creating a new password you haven't got an easy plan in place to change it often, then you'll forget about it.</p>
+<h3>Implement a 4G firewall (but allow employees public internet access without sniffing).</h3>
+<p>It's one of the few sales pitches that sold 'next gen' technology that I found incredibly humbling.  Palo-Alto demo'd their <a href="https://www.paloaltonetworks.com/products/platforms/firewalls/pa-200/overview.html">PA-200</a> just before it's release back in 2011.  Instead of looking at ports and analysing traffic, it would carry out packet inspection to decrypt protocols passing over your network.  Whilst I'm a big fan of open data and open standards for the public internet, I'm also an advocate of encryption, privacy and data security.  As an organisation you have to take responsibility for the security of your own network and I'd suggest if you do go down this route, then be careful about how you implement your network.  You may wish to give employees a separate line for access to the 'public' internet so that you mitigate any risk as your security procedures forcing you to intercept all employee messages.</p>
+<h3>Encrypt your data</h3>
+<p>Encryption is cheap; don't encrypt big chunks of data, but encrypt each 'segment' of data individually.  Work out how big/small those segments should be, or even better give your end users control over how much data they want to put into each envelope.  A good example is the password management company LastPass.  Despite keeping each user's password vault on it's servers, each vault is encrypted by an individual user's encryption key.  Now LastPass <strong><a href="https://blog.lastpass.com/2015/06/lastpass-security-notice.html/">were hacked</a>, </strong>but their architecture meant that the bad guys got away with very little useful information; yes - there were improvements to be made and LastPass identified and addressed those issues - but ultimately the information that I'd asked LastPass to protect - my passwords - was protected.  They're also a great example of how to react when you do have a security incident.</p>
+<h3></h3>

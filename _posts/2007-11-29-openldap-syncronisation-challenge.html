@@ -1,0 +1,39 @@
+---
+layout: post
+title: OpenLDAP syncronisation Challenge.
+date: 2007-11-29 00:26:04.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '202675711'
+  blr_date: '2011-10-10'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1447373293;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:260;}i:1;a:1:{s:2:"id";i:236;}i:2;a:1:{s:2:"id";i:204;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>Through faults of my own, the recent implementation of an LDAP server did not fully fulfill the functional requirements that I had drafted.  The main issue was with disconnected operation - something I was only made aware of after Gavin Henry explained the exact slurpd mechanism to me.</p>
+<p>Thanks also to <a href="http://blog.suretecsystems.com/" title="Suretec's Blog">Suretec's Blog</a> I noticed that slurpd is deprecated in the 2.4 release of OpenLDAP.  Since this is a new installation at 2.3.38-9 it seemed sensible to remove anything that is going to be deprecated within the first few months of "Going Live".  Therefore I was on the lookout for the new procedure.</p>
+<p>The way this would be done uses something called <a href="http://linux.die.net/man/5/slapd.conf" title="Slapd.conf Man Pages">syncrepl</a>. This is specified only in the Slave slapd.conf. The man pages full explain the features - but to my understanding this feature can be configured to either pull information from a master ldap server - and store it as read only - or to get the master ldap server to push any updates to the slaves - however the slave is still read only.</p>
+<p>If you want to make modifications from clients to the slave URI (if the clients cannot directly access the master) - one has to use the "chain overlay."   This overlay forwards LDAP modifications from the slave to the master - in what I can only imagine to be a mechanism similar to "port forwarding" on a router.*[1]</p>
+<p>So back to my setup.</p>
+<p>I have two three-server clusters in two remote locations.  Call these cluster 1 and cluster 2.</p>
+<p>Cluster 1 is the main cluster, where clients will be regularly updating their passwords and where most of the server activity will take place (file uploads .etc).  Therefore, this cluster has the master openldap server.</p>
+<p>Cluster 2 is a backup cluster, in case anything should happen which would bring down Cluster 1 (such as a power failure at the remote location).  Instead of going down, the services would failover to Cluster 2.  This is where the slave LDAP server is located - as it doesn't see as much activity.</p>
+<p>However, in order to centralise the company's user database, the slave LDAP server also acts as the authentication server for all the users "on site" at the company.  The local intranet authenticates of it - and some users change their passwords by logging onto this machine.</p>
+<p>The "chain overlay" seems to be the most sensible option, and coupled with syncrepl this could solve 95% of what needs to be done.  However, in disconnected operation the LDAP server would become read only - which would mean some attributes would not be updated.  Ideally the slave server should log all changes made that couldn't be forwarded to the master server - apply them and update the master server when a connection is restored.</p>
+<p>The other thing that adds to the complication is the configuration.  Both of the LDAP servers sit behind a Firewall machine - therefore the network diagram is such:</p>
+<p>LDAP(SLAVE)----FW(CLUSTER2)----INTERNET---FW(CLUSTER1)----LDAP(MASTER)</p>
+<p>The only two machines in each cluster that can talk to the other cluster are the FW machines - therefore I've set up some port forwarding to allow the LDAP machines to see each other by setting arbitrary ports on the FW machine.  FWx:389 (where x is the local cluster) forwards to the LDAP server on the opposite cluster.</p>
+<p>It's probably not the most complicated (or convoluted) setup you'll ever see - but this does add another layer of failure.  Communication inside the cluster needs to be tightly controlled.</p>
+<p>If you have any ideas on how best to implement this - please let me know and I'll keep you updated with my progress.</p>
+<p>[1] I may be wrong</p>

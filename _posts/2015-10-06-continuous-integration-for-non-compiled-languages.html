@@ -1,0 +1,38 @@
+---
+layout: post
+title: Continuous integration for non-compiled languages
+date: 2015-10-06 21:17:14.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  _publicize_twitter_user: "@andylockran"
+  _edit_last: '1'
+  _wpas_done_all: '1'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1450617141;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:113;}i:1;a:1:{s:2:"id";i:77;}i:2;a:1:{s:2:"id";i:1824;}}}}
+  _flattr_post_hidden: '0'
+  _flattr_post_customurl: ''
+  _wpas_mess: Continuous integration for non-compiled languages
+  _wpas_skip_10539271: '1'
+  _wpas_skip_9106205: '1'
+  _wpas_skip_10539259: '1'
+  _wpas_skip_9106195: '1'
+  dsq_thread_id: '4200620307'
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>In the olden times, there was compiled code. In the newer times, we still have to live with compiled code. We also have uncompiled code like php, so how does CI (continuous integration) work with that?</p>
+<p>Continuous integration is the method of "re-compiling" software after each minor change, against a base of as few changes as possible. Say you were baking a cake and wanted to try a new butter; there's no way to check that the new butter is going to objectively make the cake taste nicer without making sure everything else is consistent.</p>
+<p>CI is about making sure the 'only thing that changes is the butter' - or a variation thereof. You throw everything back into the mix with the new variation, and then test that the new 'bake' has baked successfully.</p>
+<h2>Why is CI useful for non-compiled languages?</h2>
+<p>As well as just baking - CI can be used for more advanced post-build actions like weighing, density checking, and avoiding the dreaded 'soggy bottom.'  In the PHP world there's a great set of tools available called the <a href="http://phpqatools.org/" target="_blank">PHP QA Tools</a> which have been curated by a dedicated team of PHP enthusiasts.  These can be configured to run 'post-integration' by the CI system to check anything from syntax through to cyclical complexity (a system of working out how complicated each function/method is).</p>
+<p>In the new world, where systems are cheap, it can also be used to run-up servers and entire websites/databases so that you can check deployment practices.  Taking this a step further, you can look at automated testing tools like Behat to auto-check your code each time there's a change.  Given that the cost of these tests is massively reduced, it's become cost-effective to invest in CI systems versus manual testing.  Well written tests will also enable you to test in a exponential fashion; without incurring the costs of exponential manual tester hires.</p>

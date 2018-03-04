@@ -1,0 +1,31 @@
+---
+layout: post
+title: OpenLDAP & multiple ppolicy
+date: 2008-06-17 16:18:33.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '239217855'
+  blr_date: '2011-10-14'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1452059182;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:236;}i:1;a:1:{s:2:"id";i:260;}i:2;a:1:{s:2:"id";i:214;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>After posting my article on ppolicy and OpenLDAP, I was asked whether it would be possile to create separate policies for different groups, rather than a single default.</p>
+<p>There is a simple way to do this, pointed out to me by Gavin Henry of Suretec Systems on the OpenLDAP mailing lists:<br />
+<blockquote>"Every account that should be subject to password policy control should<br />have  a pwdPolicySubentry attribute containing the DN of a valid<br />pwdPolicy entry,  or they can simply use the configured default. In this<br />way different users  may be managed according to different policies."</p></blockquote>
+<p>Therefore, the way to do it is to copy your cn=default,ou=policies,dc=example,dc=com to a new dn, such as cn=admins,ou=policies,dc=example,dc=com.</p>
+<p>Then in each of your system admins, add the</p>
+<p>pwdPolicySubentry:  cn=admins,ou=policies,dc=example,dc=com</p>
+<p>Simple really!</p>
+<p>*I'm currently waiting to work out how to apply ppolicy by group, rather than having multiple ppolicies applied individually.</p>

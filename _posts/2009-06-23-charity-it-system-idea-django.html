@@ -1,0 +1,42 @@
+---
+layout: post
+title: Charity IT System Idea - Django
+date: 2009-06-23 14:59:08.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  blr_date: '2011-10-19'
+  dsq_thread_id: '400168713'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1452129530;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:36;}i:1;a:1:{s:2:"id";i:17;}i:2;a:1:{s:2:"id";i:272;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>I'm looking to improve the way in which IT is used by the charity we're partnered with, and by the charity I work for directly.  Up til now there hasn't been much thought put into the organisation other than "We must backup" - which is a good enough place to start.. but not a means of providing a decent enough infrastructure to expand.</p>
+<p>As regards the data we're storing on our own Laptops - I'm going to be moving much of the 'archive' data across to a NAS, which will rsync with remote servers for backup.  This seems like a sensible enough solution, and will a decent folder hierarchy is something that the guys working with me will understand.</p>
+<p>However, the more complicated side of things is moving stuff which has traditionally been done on paper across to a computer-based system.  The initial period will be a hybrid of both paper and electronic records - so the two databases need to be congruent.  From my perspective, this makes it a bit easier as I already know all the fields required, and can link the field relationally where I can see a direct relationship.</p>
+<p>My initial (and current) thought is to write a couple of django modules to deal with the database, as it's what I'm more familiar with regarding linking fields across multiple tables.  Using the django-admin modules, I can already see how much of the system would look.  However, there's also the case that this database will probably become the backend for more and more as the charity grows.</p>
+<p>Currently we have paper records of all the orphanages.  Which couple are in charge, and a list of the 10 children in that home.  With the children moving between homes occasionally, linking the child to a particular home for a given time period seems the best way to store this data.</p>
+<p>Currently, if a child falls ill then we have a 1st line health-care worker who takes the required details over the phone.  There are a few boxes that are filled in, and I'd like to be able to link this information with a child in the database.  This should be easy enough.  The system would then auto-email the healthcare worker after a given time (related to the feedback from the doctors regarding the illness) so that they can do a follow-up call.</p>
+<p>I'm going to be working with a couple of doctors to make sure that the information we keep fulfils the medical needs - however, much of the stuff I want to collect will need encrypting, and I intend to make sure that the ACLs are set up correctly from the start.</p>
+<p>I'm pretty wary regarding the application's security - however, I don't intend to implement it outside of our LAN, and should remote access be required, then a VPN can be set up to remote sites to allow access.</p>
+<p>My questions are:<br />
+
+<ul>
+<br />	
+<li>Do you think that the approach I'm taking is a sensible one -as to keep the system as simple as possible and easy for both me and the Doctors I'm working with to understand?</li>
+<p>	
+<li>Do you know of a system which can already do this for me?</li>
+<p>	
+<li>Would you be interested in helping out with a system - it will be published under GPLv2?</li>
+<p></ul>
+<p>Thanks for your time, and I look forward to your responses.</p>

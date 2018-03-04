@@ -1,0 +1,36 @@
+---
+layout: post
+title: Hello AWS, my old friend.
+date: 2017-12-08 09:25:23.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags:
+- aws
+- devops
+- ec2 parameter store
+- sysadmin
+- terraform
+meta:
+  _edit_last: '1'
+  _gtm_vars: a:0:{}
+  _wpas_mess: Hello AWS, my old friend.
+  _wpas_skip_13286454: '1'
+  _publicize_twitter_user: "@andylockran"
+  _wpas_done_all: '1'
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>For the past few months I've been working back on Amazon Web Services (AWS) - trying to remember all the knowledge I curated during the earlier years of my career.  It's been really interesting to see quite how far AWS has developed since I first used it nearly a decade ago.  Whilst I'd seen the headline stats published at the start of the ACloudGuru training course; it's still a massive shock seeing quite how many services AWS now run out of the box!</p>
+<p>Having now spent two months back in the AWS world, one of the things that really struck me was my dependency on other AWS engineers.  Whilst my sweet spot is designing the systems at the architectural level - actually getting someone who understands the lower level intricacies of AWS is vastly important.  The construction analogy is massively overused, but it really is congruent with a building architect working with an engineering team to make sure the whole thing doesn't fall down.</p>
+<p>One of the most frustrating things for me, was that some of the stuff that I'd consider 'simple' still have a relatively steep learning curve, and there's a significant paradigm shift from network to host-based security.  What this means in reality is that the IAM (Identity and Access Management) module should be your first port of call.  Operating with the principle of least privilege is absolutely beautiful.  I'd recommend that any old school SysAdmins really do need to go and sign up to ACloudGuru or Udemy to get clued up on the implications.</p>
+<p>The next 'hidden' gem on AWS for me has been the EC2 parameter store; in conjunction with IAM roles and lambda.  I do need to write a more detailed post on my setup once I've validated it's not too heavily over engineered - but the combination of KMS keys, IAM roles, lambda (to run a simply random password generator), and EC2 parameter store does give me a warm glowing feeling inside.  Setting something like this up 10 years ago was a feat of engineering and relative fragile (it wouldn't survive a reboot!) - I really like the cleanliness of this new approach.</p>
+<p>The one thing that does bother me is competition.  I need to make some time to work with Azure to replicate the AWS environments on a competitor cloud (with all the support trimmings) - but also investigate minimising the barrier to exit from any cloud platform to running bare metal.</p>

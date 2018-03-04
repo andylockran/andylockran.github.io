@@ -1,0 +1,60 @@
+---
+layout: post
+title: tt_products webshop on typo3
+date: 2010-10-11 16:52:28.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '154630158'
+  blr_date: '2011-10-15'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451866159;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:361;}i:1;a:1:{s:2:"id";i:370;}i:2;a:1:{s:2:"id";i:321;}}}}
+  _oembed_baee72c0cf020ad3a57a343ca9d4cc96: "{{unknown}}"
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>Typo3 is a Content Management System that provides alot of functionality out of the box, as well as a vast catalogue of both user contributed and commercial extensions.&nbsp; It's templating system makes it very easy to integrate legacy sites.&nbsp; This is a tutorial documenting the installation and setup of tt_products, an 'Ecommerce' extension to typo3.</p>
+<p>After purchasing tt_products from http://www.ttproducts.de/ I downloaded the t3x file and installed it onto the server using the 'Import Modules' feature of the typo3 Extension Manager.&nbsp; It asks to create a new table in the typo3 database, and install a few extensions that it needs, and others which are recommended.&nbsp; Knowing that I wanted a fully featured ecommerce shop, I installed them all.</p>
+<p>Once that was done, the next step was to download the addons_tt_products extension from the typo3 Extension Manager.&nbsp; As tt_products has grown over the years, it was necessary to maintain the templates outside of the main tree.&nbsp; These are available in this new extension, so install that to get your templates.</p>
+<p>Once that is downloaded, I copied the products_template.tmpl to the fileadmin/template/ directory (your location may be different).&nbsp;&nbsp; I then had to setup a new template for the Shop plugin to use.</p>
+<p>To create a new page (essentially the 'root' of your shop,) you must create a new page in your navigation structure in the typo3 backend.&nbsp; Once the page has been created, give it a sensible name, unhide it then 'save&amp;close' it.</p>
+<p>Create a new template on the new page, by right-clicking on the page in the navigation, and selecting 'template.'&nbsp; Enter a sensible template title, and under Constants: enter the following (exchanging the path for the path of your template file):</p>
+<p>plugin.tt_products.file.templateFile = fileadmin/template/products_template.tmpl</p>
+<p>Save the template and then Clear the Cache.</p>
+<p>Once that has been completed, select 'Template' from the Web Module list, and click on the Shop 'root' page.&nbsp; This should provide you with the 'Template Information' page.&nbsp; At the bottom of this page, it says 'Click here to edit whole template record.'&nbsp; -&nbsp; DO IT.</p>
+<p>On the 'Includes' tab - there is an option for 'Include static (from extensions): on the right hand side, clikc 'Shop System CSS Styled (tt_products).&nbsp; This should move it to the 'Selected Box'.&nbsp; Once this is done, you can save&amp;close and Rebuild the Cache.</p>
+<p><strong>THIS IS AN IMPORTANT STEP THAT WILL BREAK THE SITE IF NOT COMPLETED</strong></p>
+<p>To create the Shop, you have to now insert the Shop Plugin into the 'Page Content' of your page.&nbsp; As a start I'll show you how to create a simple shop.</p>
+<p>Select the 'Page' view in the web module list, and click on your Shop 'root' page to edit it.</p>
+<p>Create a 'content element' on the page, and on the second tab, select the 'Shop Plugin' as the plugin you'd like to insert.&nbsp; If you've got the FlexForms plugin enabled, then you should be able to select 'Product: List' from the list of views on the right hand side.&nbsp; Leave the other fields blank.</p>
+<p>At the bottom of the Page is a 'StartingPoint' - this is essentially the 'root' folder for all your products.&nbsp; However, we haven't created any products or categories yet - so filling this is going to have to wait.&nbsp; Save&amp;Close the page.</p>
+<p>For a simple shop, there are only going to be a few products and categories, so that is all I intend to cover here.</p>
+<p>To add your Products and Categories, you need to create a folder to put them in.&nbsp; I added mine by creating a SysFolder underneath my Shop 'root' called Products.&nbsp; Once you've created the SysFolder, select 'List' view from the Web Modules, and select the Products folder you've created.&nbsp; On the right hand side of your view it will be empty.&nbsp;</p>
+<p>Create new content on the Right Hand side by clicking the small 'add' <img src="{{ site.baseurl }}/assets/new_el.gif" alt="" width="16" height="16" /> icon. Select 'Product category' from the list of Content Types, then fill in the relevant fields on the first tab.&nbsp; Don't bother with theother tabs for now.</p>
+<p>Do the same but for 'Products' instead of 'Product categories' to create the products you want. Just create a few for now, to get the gist of how the System works.</p>
+<p>To create a simple site structure, you'll need to add three more pages underneath your Shop 'root' page.&nbsp; These are:</p>
+<ul>
+<li>Shopping Cart</li>
+<li>Checkout</li>
+<li>Order Status</li>
+</ul>
+<p>These are just standard pages - simple to setup.</p>
+<p>To make these pages function properly, you'll need to add the Shop Plugin to their page content.&nbsp; If you're using the FlexForms extension, then instead of a CODE box, you'll be able to select what you want to display for each page.</p>
+<ul>
+<li>For Shopping Cart, you'll display BASKET (FlexForms = Basket: Shopping Cart)</li>
+<li>For Checkout you'll display PAYMENT,FINALIZE,INFO (FlexForms = Basket: Order Review &amp; Payment)</li>
+<li>for Order Status you'll display TRACKING (FlexForms = Orders: Tracking)</li>
+</ul>
+<p>You can now edit your root page, and under the Plugin Tab, set your Startingpoint to the Products folder.</p>
+<p>The site will now work, but you'll need to enable Order Tracking by editing your template.&nbsp; Add the following information to the template file:</p>
+<p>http://[www.yourdomain.de]/index.php?id=[uid_of_your_tracking_page]&amp;type=1&amp;tracking=###ORDER_TRACKING_NO###</p>
+<p>There you have it.&nbsp; A tt_products site all setup and working.</p>

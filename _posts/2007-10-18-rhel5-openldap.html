@@ -1,0 +1,36 @@
+---
+layout: post
+title: RHEL5 & OpenLDAP
+date: 2007-10-18 06:07:00.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '242183928'
+  blr_date: '2011-10-10'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1447085443;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:236;}i:1;a:1:{s:2:"id";i:209;}i:2;a:1:{s:2:"id";i:214;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>Don't.</p>
+<p>That's probably the best advice that anyone can give you.  It's all over their forums and FAQs, and has been the bane of my working life over the past few weeks.  Best course of action follows:]</p>
+<p>create the following file:</p>
+<p>/etc/yum.repos.d/openldap.repo</p>
+<p>fill it with the following:</p>
+<p>[openldap]<br />name=OpenLDAP-$releasever<br />baseurl=http://staff.telkomsa.net/packages/rhel5/openldap/$basearch<br />gpgcheck=1<br />enabled=1</p>
+<p>Once that it done</p>
+<p>yum update</p>
+<p>Now, if you're the inquisitive type, you'll notice that it's upgraded a whole 11 releases.. now that's quite a few.  Your standard 2.3.27-5 has now become a 2.3.38-*.  What a great feeling.</p>
+<p>Now all those things that you set correctly in the configuration files, before spending hours debugging, should actually work.</p>
+<p>Fantastic.. now you can get back to your job.</p>
+<p>Of course, there are a few differences (you'll probably need to upgrade your clients too) - but the packages are by Buchan Milne - google him and he's a respected packager...</p>
+<p>Now I can rest easy.</p>

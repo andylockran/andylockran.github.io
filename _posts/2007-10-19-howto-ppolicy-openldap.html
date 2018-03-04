@@ -1,0 +1,63 @@
+---
+layout: post
+title: 'Howto: ppolicy & openldap'
+date: 2007-10-19 19:20:14.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  blr_date: '2011-10-15'
+  dsq_thread_id: '177557710'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1452129264;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:133;}i:1;a:1:{s:2:"id";i:214;}i:2;a:1:{s:2:"id";i:93;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>Well I couldn't find a congruent howto out on the internet, and being as my LDAP replication post is currently the most-viewed page on the blog this month - I thought I'd do a little bit more technical documentation.</p>
+<p>I know that in many cases, 'reading the manual' can be a very annoying way of learning, but I've always read it at least once.  With ppolicy &amp; openldap you'll get nowhere without RTFM, so please make sure you leave yourself time to go through it.</p>
+<p><a href="http://linux.die.net/man/5/slapo-ppolicy" title="The Manual"> http://linux.die.net/man/5/slapo-ppolicy</a></p>
+<p>OpenLDAP is a beast, but it can be a very friendly beast.   Like the beast out of Beauty and the Beast, it reacts differently to different people.  Were you Belle - then you'll have no problems (notice how Belle reads books) but were you to be Gaston (who uses force &amp; brute strength) the beast isn't going to like you.</p>
+<p>Well I'm assuming you already have a working OpenLDAP setup (including user authentication through PAM)- if you haven't then there are some quite good howtos for starting off.  If you want advice - please comment rather than send me an email - as then other people will be able to learn from both your questions, and the answers provided (not just by me, but other commentators).</p>
+<p>The best thing to do first is to make sure you have decent rpms. See <a href="http://blog.zrmt.com/index.php/2007/10/18/rhel5-openldap/" title="OpenLDAP">THIS POST</a> for how to get them setup on Centos/RHEL.  If you're using another distribution, then make sure their packages applications have a good reputation for working.</p>
+<p>ppolicy.la is a module file, and will be installed in /usr/libs/openldap/.  It's a good idea to check it's there.  The other thing to do is to copy the ppolicy.schema to /etc/openldap/schema/ directory - and make sure that all the attributes you need are uncommented (pwdReset was commented as default, and I didn't realise).  It's probably a good idea to read through the schema file too.</p>
+<p>In slapd.conf add:<br />
+<blockquote> modulepath      /usr/lib/openldap</p>
+<p>moduleload    ppolicy.la</p></blockquote>
+<p>then you need to add the following after the DB section:<br />
+<blockquote>overlay ppolicy<br />ppolicy_default "cn=default,ou=policies,dc=example,dc=com"<br />ppolicy_use_lockout</p></blockquote>
+<p>Providing you've got the ACLs set correctly in your slapd.conf (too big to consider covering in this howto) that's all the slapd.conf configuration you'll need.</p>
+<p>The other file you'll need to edit it /etc/ldap.conf<br />
+<blockquote>uncomment pam_lookup_policy yes</p></blockquote>
+<p>that will now allow PAM to lookup the ppolicy from the LDAP directory.</p>
+<p>Ah ha!  I know what we've forgotten, the actual policy!</p>
+<p>Well this bit's probably the easiest bit (technically) though you'll have to work out what policy you'll be implementing yourself.</p>
+<p>Create a new .ldif  file called ppolicy.ldif (or jabberwocky.ldif if you like, it really doesn't matter) and add the following details:<br />
+<blockquote># default, policies, example.com<br />dn: cn=default,ou=policies,dc=example,dc=com<br />objectClass: top<br />objectClass: device<br />objectClass: pwdPolicy<br />cn: default<br />pwdAttribute: userPassword<br />pwdMaxAge: 7516800<br />pwdExpireWarning: 432000<br />pwdInHistory: 6<br />pwdCheckQuality: 1<br />pwdMinLength: 8<br />pwdMaxFailure: 4<br />pwdLockout: TRUE<br />pwdLockoutDuration: 1920<br />pwdGraceAuthNLimit: 0<br />pwdFailureCountInterval: 0<br />pwdMustChange: TRUE<br />pwdAllowUserChange: TRUE<br />pwdSafeModify: FALSE</p></blockquote>
+<p>You'll have different policy options, and by no means am I suggesting the above is a good configuration.  Read through the manual and find out the options you want to set.  It _may_ be a good enough configuration for you, but I accept no responsibility for it.</p>
+<p>Once you've done that run the following<br />
+<blockquote>ldapadd -D "cn=Manager,dc=example,dc=com" -W -x -f jabberwocky.ldif  (replacing jabberwocky with your choice of ldif name)</p></blockquote>
+<p>You'll be prompted to enter your password - and then hopefully you'll see something along the signs of Success!</p>
+<p>Once that's done, run<br />
+<blockquote>ldapsearch -D "cn=Manager,dc=example,dc=com" -W -x</p></blockquote>
+<p>which will output the results of what's in the ldap tree (and if you scroll up you should see your brand new ppolicy.</p>
+<p>Now you can restart LDAP (notice how we didn't before, just in case users were attempting to authenticate they'd be mightily disrupted).</p>
+<p>Hopefully that will restart with no errors.  That's that.</p>
+<p>The behaviour will rely heavily on your configuration, thereby you can only test your configuration, rather than ppolicy itself.</p>
+<p><strong><em>BE WARNED = THE FOLLOWING SCRIPT WILL FORCE YOU TO CHANGE YOUR PASSWORD ON YOUR NEXT LOGIN.  IF YOU DON'T WANT TO DO THIS THEN DON'T RUN THE SCRIPT.</em></strong></p>
+<p>If you want to check it's working then run the following (provided that pwdMustChange is set to true in the defauly policy):<br />
+<blockquote>ldapmodify -x -D "cn=Manager,dc=example,dc=com" -W</p>
+<p>dn: uid=($user),ou=Users,dc=example,dc=com</p>
+<p>changetype: modify</p>
+<p>add: pwdReset</p>
+<p>pwdReset: TRUE</p></blockquote>
+<p>then press return and it should say success.  try and login now with your username ($user) and your old password.  It will then log you in and ask you to change it.</p>
+<p>Neat.</p>
+<p><em>If you have problems with openLDAP itself, then the guys in #ldap on irc.freenode.net are very helpful.  However, if it's a problem with another application interfacing with LDAP, please don't disturb them.  LDAP connects with hundreds of applications, so please ask the application developers ahead of the LDAP ones. </em></p>

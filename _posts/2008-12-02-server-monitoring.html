@@ -1,0 +1,38 @@
+---
+layout: post
+title: Server Monitoring.
+date: 2008-12-02 14:19:53.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: ''
+  blr_date: '2011-10-14'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1447731297;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:214;}i:1;a:1:{s:2:"id";i:364;}i:2;a:1:{s:2:"id";i:286;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>For these past few weeks I feel like I've spent most of my time working on a PCI DSS audit.  It's the audit which checks whether you've made the standards required by the card processing companies - and gives you the ability to store card numbers.  It's an interesting scheme - with many people having mixed views on it's suitaility/workability.  I enjoy working to the tough specification, and adding extra bits of security all over.</p>
+<p>There's only so many ways in which you can secure a server.  Most PCI setups involved using multiple boxes (they have to) - and there's lots of security between the boxes to enhance the security further.  However, the PCI audit doesn't just check your procedures and systems to avoid the initial penetration - it also looks to migate the affects should some fortunately soul manage to get in.</p>
+<p>Due to my background not being in Computing - there are a few areas that I feel I'm weak on.  However, once I can take a look at the problem, it's normally just a case of logic, that 'supa-doopa' programming.  In fact, once I'd started programming late in 2008, I realised that the programming was just a tiny part of the process of a programmer - most of the time it was making sure that what was about to be programmed wouldn't create erroneous results.</p>
+<p>One program which I've had a love2hate relationship with, that I've now really warmed to, is Samhain.  From la-samhna solutions.  It's a great program, and kudos goes to the developers for releasing it at open source.  I've also really enjoyed using SNORT, ntop, wireshark (formerly ethereal) and the Shorewall firewall.  System hardening was an interesting task.. locking the system down to as few users as possible.  There's so many different things to take into consideration - you end up with a 3D network of traffic streaming from one server to another.</p>
+<p>I imagine this as being a gravity-less environment, with streams of data passing like skycars across the 3D network.  I then basically put in roads (the firewall rules) that only allow traffic to be passing
+<ul>	
+<li>on ports I know about</li>
+<p>	
+<li>transmitting packets I know about (stateful inspection)</li>
+<p></ul>
+<p>Then, when I turn the firewall on - the gravity gets re-enabled - and any datastreams that aren't supported by the firewall (roads) collapse and are broken.</p>
+<p>The most important part of it all though, is the monitoring.  Without effective system monitoring - the whole system is useless.  You need status colours, and a easy 1 screen display.  Events which are expected, such as your developer logging into the server, don't need to trigger a 'critical' error - but can be flagged so the project manager can review them.  Sure, it may be easier for a developer to have plaintext lines, spelling out the status - and then expect the Project Manager to read them - but surely it's more fun to have a screen of buttons and colours in front of them.  They can immediately see any problems.</p>
+<p>But, the main thing I've learnt about all this, is that at the end of the day it's not down to the Sys Admin to secure a system.  If the developers don't write their code right - if the company policy regarding logins doesn't prevent changes being made to the live server without PM approval (on pain of death) - then securing it to any level is near pointless.</p>
+<p>Needless to say, I'm very happy with what I've been doing the past few weeks - and learned many lessons that I think will stand me in good stead for the future.</p>
+<p>Bring on the next PCI audit!</p>

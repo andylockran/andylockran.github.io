@@ -1,0 +1,44 @@
+---
+layout: post
+title: Heatmiser TM1-N Control4 Driver
+date: 2015-11-04 00:13:47.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags:
+- control4
+- lua
+- python
+- serial
+meta:
+  _edit_last: '1'
+  _publicize_twitter_user: "@andylockran"
+  _wpas_done_all: '1'
+  _gtm_vars: a:0:{}
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451818343;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1812;}i:1;a:1:{s:2:"id";i:1855;}i:2;a:1:{s:2:"id";i:1854;}}}}
+  _wpas_skip_10539271: '1'
+  _wpas_skip_9106205: '1'
+  _wpas_skip_10539259: '1'
+  _wpas_skip_9106195: '1'
+  dsq_thread_id: '4287474462'
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>It's funny how things turn out when you're a little determined.</p>
+<p>Since I couldn't find any suitable driver, I worked on porting the python code that I had working over to a workable lua instance. At the moment it's a little broken, but I had the CRC method producing identical behaviour in both Python and Lua.  You can access it over on my github at <a href="https://github.com/andylockran/Control4-Heatmiser-TM1-N">https://github.com/andylockran/Control4-Heatmiser-TM1-N</a>.  If you are going to fix it, please send me a pull request to get it back into my project.</p>
+<p>I broke it during frustrations at the integration once I'd got the driver loaded into Control4. I need to work out how to both write to a serial device over the internal system (C4:SendToSerial(1,"msg") - not too difficult - but to then have the serial port locked so that I can wait to hear the response. Again, massive frustration since this is functionality that's no doubt present on the Extra Vegetables drivers, but to which I don't have access.</p>
+<p>I'm not sure whether to go down an alternative route of writing a script to do the following:</p>
+<p>1. Log into the tcp2serial web interface<br />
+2. Change the port number (which disconnects the control4 setup and allows me to connect my python script<br />
+3. Get the python script to connect and do it's business<br />
+4. Revert the changes in the tcp2serial device.<br />
+5. Carry on as normal.</p>
+<p>There's a few 'open source' drivers around that'd turn it from being an internal C4 process into a network based and open setup - but I'm not sure if that defeats my end goal.</p>

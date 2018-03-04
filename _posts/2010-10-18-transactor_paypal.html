@@ -1,0 +1,74 @@
+---
+layout: post
+title: transactor_paypal
+date: 2010-10-18 13:02:12.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  blr_date: '2011-10-17'
+  _edit_last: '1'
+  dsq_thread_id: '158060141'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1452098598;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:360;}i:1;a:1:{s:2:"id";i:325;}i:2;a:1:{s:2:"id";i:370;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>The following article will explain how to setup the transactor_paypal plugin to allow Paypal payments to be made using the tt_products typo3 extension.</p>
+<p>The first step is to buy and install the transactor_paypal plugin from ttproducts.de  Once you've done that it's time to setup the test Paypal Accounts.</p>
+<h2>Paypal</h2>
+<p>Paypal's developer network has moved to www.x.com.  You need to setup a buyer account (with funds) and a seller account. </p>
+<h2>Templates</h2>
+<p>The following additions need to be made to the Template setup for the Shop.  Firstly, setup a Templates Sysfolder for the Shop.  Add ane extension template to that Sysfolder and name it 'Paypal.'  To the 'Setup' field add the folllowing code:</p>
+<pre>
+lib.transactor_paypal {
+   extName = transactor_paypal
+   extWww = www.paypal.com
+   extTitle = PayPal Website Payments Standard
+   extInfo = PayPal enables any business or consumer with an email address to securely, <br />conveniently, and cost-effectively send and receive payments online.
+   extImage = EXT:transactor_paypal/res/paypal_euro.gif
+   gatewaymode = form
+   formActionURI >
+   paymentMethod = paypal_webpayment_euro
+   currency = EUR
+   templateFile = EXT:transactor/template/transactor.tmpl
+   useBasket = 1
+   conf {
+   }
+}
+</pre>
+<p>Once that has been installed, you can then edit the config of the main root template for your shop.</p>
+<p>Constants:</p>
+<pre>plugin.tt_products.paymentActivity = verify</pre>
+<p>Setup:</p>
+<pre>plugin.tt_products {
+
+  payment >
+  payment {
+  90.title = Paypal Gateway
+  90.handleLib = transactor
+  90.handleLib < lib.transactor_paypal
+  90.image.file = EXT:transactor_paypal/res/paypal_euro.gif
+  }
+}
+</pre>
+<p>Also, in the Includes tab, under 'Basis' templates, add the Paypal Template from your Templates SysFolder.</p>
+<h2>Edit products.tmpl</h2>
+<p>On the Filesystem, you also need to edit your products template.  Add the </p>
+<pre>
+###MESSAGE_PAYMENT_SCRIPT###
+
+inside the subpart
+
+###BASKET_PAYMENT_TEMPLATE###
+</pre>
+<p>Empty your cache, reload your site – and test it all out.</p>
+<p>You may need to play with your templates to get things appearing as you wish, but that should be mostly there.</p>

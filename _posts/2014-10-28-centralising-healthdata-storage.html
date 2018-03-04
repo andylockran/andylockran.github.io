@@ -1,0 +1,52 @@
+---
+layout: post
+title: Centralising HealthData Storage
+date: 2014-10-28 22:09:03.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Cycling
+- Mobile
+- Technology
+tags: []
+meta:
+  _wpcom_is_markdown: '1'
+  _edit_last: '1'
+  _flattr_post_hidden: '0'
+  _flattr_post_customurl: ''
+  _publicize_twitter_user: "@andylockran"
+  _wpas_done_all: '1'
+  dsq_thread_id: '3166879119'
+  _wpas_skip_9106199: '1'
+  _wpas_skip_9106205: '1'
+  _wpas_skip_9106195: '1'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451754458;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1798;}i:1;a:1:{s:2:"id";i:1767;}i:2;a:1:{s:2:"id";i:357;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>Today the guys over at Google released their newest parry against Apple's dominance by launching <a title="Google Fit" href="https://developers.google.com/fit" target="_blank">Google Fit</a>.  I'm glad that they've made this move to combat the perceived potential monopoly of the Apple HealthKit - as it seems that many people are getting excited about the benefits of a centralised record of a person's physical activities.</p>
+<h2>My favourite fitness app - Strava</h2>
+<p>As you'll see from the little widget on the side of the blog, I am a big fan of Strava.  Yes, it's got a bit of a bad reputation for male 'KOMs' (King of the Mountains) trying to better each other on dangerous stretches of road, and is a little macho-istic in its purpose - but the real benefit for me is to chart and see my progress over the time that I've been using it.  Only in the last few weeks have my commutes started becoming 'achievement free' - meaning that I'm no longer simply improving my performance on a weekly basis through chugging away on my commute - or that I've hit the 'safe' limit for speeding around central London through rush hour.</p>
+<h2>Strava &amp; Veloviewer -  a match made in heaven.</h2>
+<p>It's neat though, because I came across a tool called <a title="Veloviewer" href="http://veloviewer.com/" target="_blank">Veloviewer.com</a> which can interact with the Strava API and pull out all my ride data, and then provide better analysis and graphing of my progress.  Want to see my performance on a certain segment over the past 2 years? Sure.  They even start by mirroring the privacy settings of what I've kept on Strava.  Perfect.</p>
+<h2>Twitter &amp; Twitpic - the lesson.</h2>
+<p>However, they're developing against a moving target.  There's nothing stopping Strava from seeing how Veloviewer are using the Strava API, copying their efforts and then closing it down*.  Twitter's API during it's boom years was a major incentive for companies like TweetDeck, twitpic &amp; Instagram to all grab onto the shirt-tails and using the twitter API boost their own revenues, however, when Twitter decided to expand and compete directly with them, it was easy to shut down the API and make more advanced functionality a 'premium' service.</p>
+<h2>So, Google Fit.</h2>
+<p>What Google Fit does, is bring together that fitness data under one, independent* source - that will allow a greater level of trust and compatibility between apps like Strava and Veloviewer.  Garmin recently saw the light at the end of the tunnel and opened up their 'Garmin Connect' software to sync data in and out with some key mobile fitness apps - but separating the data from the devices has got to be the ultimate aim in usability.  Sites like veloviewer can leverage the functionality of the GoogleFit REST API, whereas <em>Android</em> apps themselves can use the 'Android' interface to get data in and out of the datastore.</p>
+<h2>What's the problem?</h2>
+<p>The problem is that it's another bit of data that is fairly personal that I'm giving to Google.  Now, Google give me a load of stuff for 'free' - and in return I get neat functionality.  Want to track whether my girlfriend is going to beat me home to make dinner - yep; check.  I can do it.  The problem I've got is the 'visibility' of what Google store on me.  When Google Latitude first came out, it was immediately obvious where the data points were gathered from, and though the interfaces were pretty ugly, you could navigate and quite easily see things like your location history.  The difference in the most modern iteration is that the 'gateway' for signing yourself up into this data collection exercise is no longer contextualised.  You buy an Android phone and turn on location services (otherwise people have actually got to use orienteering skills to use Google maps, rather than just follow the blue dot!), and Boom!  Now google did react quite positively to concerns about this, so when you google 'Location History' you can see the following <a title="Location History" href="https://maps.google.co.uk/locationhistory/" target="_blank">link: https://maps.google.co.uk/locationhistory/</a> - but many people are still freaked out by this.</p>
+<p>So, when an interface like Google Fit comes along, it scares me a bit<br />
+:</p>
+<p><a href="http://zrmt.com/wp-content/uploads/2014/10/Screenshot_2014-10-28-21-59-42.png"><img class="aligncenter wp-image-1708" src="{{ site.baseurl }}/assets/Screenshot_2014-10-28-21-59-42.png" alt="Google Fit" width="271" height="482" /></a></p>
+<p>&nbsp;</p>
+<p>It's so bloody simple it doesn't really tell me what's being stored.  At the moment I'll put this down to 'freshness' and hopefully Google will take the same path that they did with location history - but seeing my data stash (being able to import/export from it too) is key functionality that I expect to be developed either by a third party using the Google API - or by Google themselves.</p>
+<p>The positive is that they've published a paragraph called '<a title="Google Fit" href="https://developers.google.com/fit/overview#responsible_use_of_google_fit" target="_blank">Responsible use of Google Fit</a>' - so at least they're giving it plenty of thought from the off.</p>
+<p>I look forward to seeing the direction this takes, and hopefully more apps like Veloviewer will be able to grow based on today's announcement.  It'll be interesting to see how Google manage to compete with Apple's HealthKit - with Apple clearly taking the initiative on NFC (despite being years late to the party) by proactively curating a network of corporate agreements to get their payment systems integrated with the new ApplePay, versus Google's passive actions waiting for Contactless, and then NFC to take off organically.</p>
+<p><em>*I have no idea what the incentives of the Strava developers are re: veloviewer, but at the moment it's all looking rosy from the outside.</em></p>

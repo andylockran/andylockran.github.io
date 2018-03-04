@@ -1,0 +1,81 @@
+---
+layout: post
+title: FreePBX & Asterisk Queue 'Nuance'
+date: 2011-02-11 00:29:07.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '236455783'
+  _edit_last: '1'
+  blr_date: '2011-10-17'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1450942965;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:26;}i:1;a:1:{s:2:"id";i:270;}i:2;a:1:{s:2:"id";i:1597;}}}}
+  wp-syntax-cache-content: |-
+    a:2:{i:1;s:4882:"
+    <div class="wp_syntax" style="position:relative;"><table><tr><td class="code"><pre class="bash" style="font-family:monospace;">comms<span style="color: #000000; font-weight: bold;">*</span>CLI<span style="color: #000000; font-weight: bold;">&gt;</span> queue show <span style="color: #000000;">5200</span>
+    <span style="color: #000000;">5200</span> has <span style="color: #000000;">0</span> calls <span style="color: #7a0874; font-weight: bold;">&#40;</span>max unlimited<span style="color: #7a0874; font-weight: bold;">&#41;</span> <span style="color: #000000; font-weight: bold;">in</span> <span style="color: #ff0000;">'ringall'</span> strategy <span style="color: #7a0874; font-weight: bold;">&#40;</span>0s holdtime, 0s talktime<span style="color: #7a0874; font-weight: bold;">&#41;</span>, W:<span style="color: #000000;">0</span>, C:<span style="color: #000000;">0</span>, A:<span style="color: #000000;">17</span>, SL:<span style="color: #000000;">0.0</span><span style="color: #000000; font-weight: bold;">%</span> within 60s
+       Members:
+          Trevor <span style="color: #7a0874; font-weight: bold;">&#40;</span>Local<span style="color: #000000; font-weight: bold;">/</span><span style="color: #000000;">1004</span><span style="color: #000000; font-weight: bold;">@</span>from-queue<span style="color: #000000; font-weight: bold;">/</span>n<span style="color: #7a0874; font-weight: bold;">&#41;</span> <span style="color: #7a0874; font-weight: bold;">&#40;</span>Unavailable<span style="color: #7a0874; font-weight: bold;">&#41;</span> has taken no calls yet
+          Michael <span style="color: #7a0874; font-weight: bold;">&#40;</span>Local<span style="color: #000000; font-weight: bold;">/</span><span style="color: #000000;">1001</span><span style="color: #000000; font-weight: bold;">@</span>from-queue<span style="color: #000000; font-weight: bold;">/</span>n<span style="color: #7a0874; font-weight: bold;">&#41;</span> <span style="color: #7a0874; font-weight: bold;">&#40;</span>Unavailable<span style="color: #7a0874; font-weight: bold;">&#41;</span> has taken no calls yet
+          Bob <span style="color: #7a0874; font-weight: bold;">&#40;</span>Local<span style="color: #000000; font-weight: bold;">/</span><span style="color: #000000;">1012</span><span style="color: #000000; font-weight: bold;">@</span>from-queue<span style="color: #000000; font-weight: bold;">/</span>n<span style="color: #7a0874; font-weight: bold;">&#41;</span> <span style="color: #7a0874; font-weight: bold;">&#40;</span>Unavailable<span style="color: #7a0874; font-weight: bold;">&#41;</span> has taken no calls yet
+          Carlos <span style="color: #7a0874; font-weight: bold;">&#40;</span>Local<span style="color: #000000; font-weight: bold;">/</span><span style="color: #000000;">1002</span><span style="color: #000000; font-weight: bold;">@</span>from-queue<span style="color: #000000; font-weight: bold;">/</span>n<span style="color: #7a0874; font-weight: bold;">&#41;</span> <span style="color: #7a0874; font-weight: bold;">&#40;</span>Unavailable<span style="color: #7a0874; font-weight: bold;">&#41;</span> has taken no calls yet
+          Andy <span style="color: #7a0874; font-weight: bold;">&#40;</span>Local<span style="color: #000000; font-weight: bold;">/</span><span style="color: #000000;">1013</span><span style="color: #000000; font-weight: bold;">@</span>from-queue<span style="color: #000000; font-weight: bold;">/</span>n<span style="color: #7a0874; font-weight: bold;">&#41;</span> <span style="color: #7a0874; font-weight: bold;">&#40;</span>Unavailable<span style="color: #7a0874; font-weight: bold;">&#41;</span> has taken no calls yet
+          Steve <span style="color: #7a0874; font-weight: bold;">&#40;</span>Local<span style="color: #000000; font-weight: bold;">/</span><span style="color: #000000;">1007</span><span style="color: #000000; font-weight: bold;">@</span>from-queue<span style="color: #000000; font-weight: bold;">/</span>n<span style="color: #7a0874; font-weight: bold;">&#41;</span> <span style="color: #7a0874; font-weight: bold;">&#40;</span>Unavailable<span style="color: #7a0874; font-weight: bold;">&#41;</span> has taken no calls yet
+       No Callers</pre></td></tr></table><p class="theCode" style="display:none;">comms*CLI&gt; queue show 5200
+    5200 has 0 calls (max unlimited) in 'ringall' strategy (0s holdtime, 0s talktime), W:0, C:0, A:17, SL:0.0% within 60s
+       Members:
+          Trevor (Local/1004@from-queue/n) (Unavailable) has taken no calls yet
+          Michael (Local/1001@from-queue/n) (Unavailable) has taken no calls yet
+          Bob (Local/1012@from-queue/n) (Unavailable) has taken no calls yet
+          Carlos (Local/1002@from-queue/n) (Unavailable) has taken no calls yet
+          Andy (Local/1013@from-queue/n) (Unavailable) has taken no calls yet
+          Steve (Local/1007@from-queue/n) (Unavailable) has taken no calls yet
+       No Callers</p></div>
+    ";i:2;s:845:"
+    <div class="wp_syntax" style="position:relative;"><table><tr><td class="code"><pre class="bash" style="font-family:monospace;">APL-DESK <span style="color: #7a0874; font-weight: bold;">&#40;</span>Local<span style="color: #000000; font-weight: bold;">/</span><span style="color: #000000;">5108</span><span style="color: #000000; font-weight: bold;">@</span>from-queue<span style="color: #000000; font-weight: bold;">/</span>n<span style="color: #7a0874; font-weight: bold;">&#41;</span> <span style="color: #7a0874; font-weight: bold;">&#40;</span>Not <span style="color: #000000; font-weight: bold;">in</span> use<span style="color: #7a0874; font-weight: bold;">&#41;</span> has taken no calls yet</pre></td></tr></table><p class="theCode" style="display:none;">APL-DESK (Local/5108@from-queue/n) (Not in use) has taken no calls yet</p></div>
+    ";}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>I've recently been playing with FreePBX and Asterisk and have upgraded my Gentoo setup to:</p>
+<li>Asterisk 1.6.2.16.1</li>
+<li>FreePBX Core 2.8.1.0</li>
+<li>FreePBX Framework 2.8.1.0</li>
+<p></p>
+<p>We have a slight nuance with the way we initially setup FreePBX.  In order to split users/physical devices, I set up all users starting at 1000, and physical devices at 5000.  My personal extension is 1013.  I manage my follow-me via the Web Interface, which I set to my deskphone, 5108.  I also set the follow-me on 1013 to my mobile on 07777777777# (not my actual number).</p>
+<p>This has worked well for about 4 years, enabling us to add more phones and more locations.  However, today I hit a new problem.</p>
+<p>At around lunchtime, my boss called to say people that call up our number are getting our IVR, (where they can either enter an extension, or are forwarded to a queue) and are simply being put into the queue (5200) and it's ringing out.  I attempted a call and looking at the verbose logs that is exactly what was happening.</p>
+<p>With some help from the #freepbx IRC channel (especially [TK]D-Fender), I was advised to run 'queue show 5200'.  This showed all our user extensions as (unavailable) - which they were, as they are all forwarded on to follow-me.</p>
+<pre lang="BASH">
+comms*CLI> queue show 5200
+5200 has 0 calls (max unlimited) in 'ringall' strategy (0s holdtime, 0s talktime), W:0, C:0, A:17, SL:0.0% within 60s
+   Members:
+      Trevor (Local/1004@from-queue/n) (Unavailable) has taken no calls yet
+      Michael (Local/1001@from-queue/n) (Unavailable) has taken no calls yet
+      Bob (Local/1012@from-queue/n) (Unavailable) has taken no calls yet
+      Carlos (Local/1002@from-queue/n) (Unavailable) has taken no calls yet
+      Andy (Local/1013@from-queue/n) (Unavailable) has taken no calls yet
+      Steve (Local/1007@from-queue/n) (Unavailable) has taken no calls yet
+   No Callers
+</pre>
+<p>It was pointed out to me that because they were unavailable, they would not receive the calls.  That makes some kind of sense.  In reality they're permanently disconnected SIP devices, which simply forward on to their follow me.</p>
+<p>At this juncture, I should point out that there is an option in the Queue Management page in FreePBX called 'Agent Restrictions', which specifies the following:<br />
+<em><br />
+When set to 'Call as Dialed' the queue will call an extension just as if the queue were another user. Any Follow-Me or Call Forward states active on the extension will result in the queue call following these call paths. This behavior has been the standard queue behavior on past FreePBX versions. <br />When set to 'No Follow-Me or Call Forward', all agents that are extensions on the system will be limited to ringing their extensions only. Follow-Me and Call Forward settings will be ignored. Any other agent will be called as dialed. This behavior is similar to how extensions are dialed in ringgroups. <br />When set to 'Extensions Only' the queue will dial Extensions as described for 'No Follow-Me or Call Forward'. Any other number entered for an agent that is NOT a valid extension will be ignored. No error checking is provided when entering a static agent or when logging on as a dynamic agent, the call will simply be blocked when the queue tries to call it. For dynamic agents, see the 'Agent Regex Filter' to provide some validation.</em></p>
+<p>I therefore expected the extensions there to adhere to the follow-me.  This was not the case.</p>
+<p>The next step was to add a physical device to the list of SIP extensions in the queue, one that would show up as available.  I added my deskphone extension (5108) and it showed up in the queue as the following:</p>
+<pre lang="BASH">
+APL-DESK (Local/5108@from-queue/n) (Not in use) has taken no calls yet
+</pre>
+<p>So I now dialed the queue and expected just extension 5108 to ring, but to my surprise now every extension listed in the queue now rang their follow me.  It was as if adding a physical extension to the queue 'bumped' asterisk into respecting the follow-me of the (unavailable extensions).  True enough I then removed 5108 from the queue only to return to the same behaviour as before - no phones ringing.</p>
+<p>What confuses me is that if the phone is marked as (unavailable) and therefore that is the reason why it doesn't ring, then why when only one phone in the queue is marked as (not in use) does it then 'make' asterisk respect the follow-me of the (unavailable) extensions?</p>
+<p>Please let me know your thoughts</p></p>

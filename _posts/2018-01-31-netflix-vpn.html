@@ -1,0 +1,64 @@
+---
+layout: post
+title: Why I think Netflix's stance on VPNs stinks
+date: 2018-01-31 23:01:40.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Social
+- Technology
+tags:
+- cyber security
+- dmz
+- metadata
+- netflix
+- networking
+- routing
+meta:
+  _publicize_twitter_user: "@andylockran"
+  _edit_last: '1'
+  _wpas_done_all: '1'
+  _gtm_vars: a:0:{}
+  _wpas_mess: Guilty, with no chance to prove innocence.
+  _wpas_skip_13286454: '1'
+  _wpas_skip_9106205: '1'
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>In Netflix blocking all access to their service except through a vanilla ISP connection, the end of both net neutrality and online privacy is coming to a head, much faster than I would have expected.</p>
+<p>To be fair to Netflix, I have a fairly bespoke networking setup at home, mostly so that I can play around with my new technology.  I am an 'early adopter' - so want to play with things without disrupting the internet for everyone else.  It allows me to login to my machines remotely, and securely, and ensures that access to my online bank, crypto accounts and other online accounts is easily audit-able.</p>
+<p>Unfortunately Netflix have dropped a fly in the ointment by suggesting that simply because I'm operating at a higher level of security than the majority of customers, I am a crook.</p>
+<p>From their help page:</p>
+<blockquote>
+<div class="tab-title open">
+<h2 data-beacon="action=undefined">Do you use a VPN or proxy for other reasons, such as for work or for privacy?</h2>
+</div>
+<div class="tab-content">
+<div class="c-wrapper">
+<div>
+<p>Because there is no reliable way for us to determine if a VPN or proxy is being used for legitimate purposes, any VPN or proxy use will prevent you from streaming Netflix. Please disable any VPN or proxy and try Netflix again.</p>
+</div>
+</div>
+</div>
+</blockquote>
+<div class="tab-content">
+<div class="c-wrapper">
+<p>Whilst I can't disagree with their sentiment, I would like to have the option of setting up such configuration on a site-by-site basis; rather than a broad sweeping brush requiring me to disable a level of security for my entire network, just to let me access Netflix.</p>
+<p>We are operating in a cyber environment where security needs to be managed at multiple levels.  There is no such thing as a completely secure setup.  The safest way of operating is my having multiple levels of security and a valid alerting mechanism when something unusual occurs.  For me, that has been routing all my traffic via my single IP to make auditing of access to remote sites easier - and by limiting the number of places that I can login from.</p>
+<p>It takes me back to the days of when I used Internet Explorer, when even with a fairly ancient tool it was possible to set privacy levels based on site.</p>
+<p><img class="size-full wp-image-2097 aligncenter" src="{{ site.baseurl }}/assets/InternetSecurity.png" alt="" width="410" height="538" /></p>
+<p>What Netflix are essentially telling me is that for _all_ my traffic, I have to reset my network to the ISP default - there isn't a way for me to lower my security levels just for their product.</p>
+<p>It would be great for Netflix to accommodate the more advanced setups by publishing their public IP ranges (AWS already do this for CloudFront, and others have followed suit) so it is possible for me to make an exception specifically for Netflix.  That I'd be happy to do.</p>
+<p>In the meantime I guess I'll have to put the devices that I use to stream Netflix into my vanilla network.</p>
+<h3>Why am I so concerned?</h3>
+</div>
+<p>In forcing people to route their traffic via their specific ISP, rather than appearing to Netflix as any other address on the internet, it allows Netflix and the ISPs to gather information based on what traffic is passing over their networks and route it accordingly (metadata).  We're already seeing some ISPs offer 'better performance' for certain SaaS services, and using that as a marketing message when trying to sell their products - but it leads the way to operating a two-tier system, locking Netflix at the top by improving the performance of their Content Delivery Networks as the expense of the plucky upstarts or competitors.</p>
+<p>Online we all leak little pieces of insignificant information each day.  Who's got a maternal uncle on Facebook? Do you publish your D.O.B?  In the internet of 10 years ago, that would no doubt be sufficient information to break into your online banking.  10 years hence, how are the digital natives of today going to secure and verify their identities online without the level of paranoia generally associated with those in tin hats?  The internet as a 'free' (as in freedom) platform is being eroded slowly by decisions that do not explicitly appear to be damaging it - but have significant implications.  Five years ago the idea of Facebook/Twitter overthrowing a western government appeared absurd - yet in the last 2 years we've seen both Brexit and the American presidential elections significantly affected by these platforms.</p>
+</div>

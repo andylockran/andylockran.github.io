@@ -1,0 +1,38 @@
+---
+layout: post
+title: Blockchain; gateway to cryptography?
+date: 2017-02-12 16:24:23.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Social
+- Technology
+tags:
+- Blockchain
+- genesis block
+- hashes
+- merkle tree
+meta:
+  _edit_last: '1'
+  _wpas_done_all: '1'
+  _gtm_vars: a:0:{}
+  _wpas_mess: Blockchain; gateway to cryptography
+  _wpas_skip_13286454: '1'
+  _publicize_twitter_user: "@andylockran"
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>"What is a blockchain?" is probably one of the most frequent questions I've had to answer in the last 12 months.  What makes it more difficult is the answer more often than not has to take into account the varied knowledge and experience of the inquirer.</p>
+<p>I've got a reasonable background in understanding the cryptography ecosystem from my days at a systems administrator, and having to secure everything from PII through to credit card data.  What I am <strong>not</strong> though, is a cryptography expert.  It's a perfect example of  where you can rely on the experiences and expertise of other people in the open source community, rather than mixing your own flawed implementation.</p>
+<p>What I've realised is that Blockchain is pretty much a <strong>gateway to cryptography</strong>.  Many people up until now will have used the simple padlock system in the top left of the address bar as their only real exposure to cryptography; but with cyber attacks becoming more and more frequent, the tacit knowledge required for the average user probably needs to improve.</p>
+<p>To that end; when people are now asking for me to explain blockchain so they can understand it; I sort of reverse the question.  The 'distributed ledger' is a pretty easy concept to explain with an append-only google docs spreadsheet.  Where I think the general knowledge starts to falter is on hashes.  I'm not going to cover it in this article, but looking up what one-way cryptographic hashes are is probably the first element of Blockchain 101.</p>
+<p>Once you've got a grasp of what a hash is, it's then worth understanding how to secure them. The simplest answer (in my experience) is to rely on someone with experience to tell you which is the best hashing strategy to use, and get them to cite the source for that decision.  Internet security is rapidly evolving, so the right answer 2 years ago is the wrong answer now, but in starting to understand how the answers are reached, even non-technical participants can start to look for warning signs on outdated cryptographic techniques.</p>
+<p>The second thing that I suggest people then look at is the concepts of Merkle trees. You can use both of these principles to either create a daily hash of your accounts spreadsheet file, or a Merkle root of the file as a representation of a semi-manually computed blockchain.  Simply share/publish your calculation at the end of each day so another party has access, and you can begin to understand the trust mechanisms that operate once the system starts to scale up.</p>
+<p>Finally, you end up with the genesis block (ironic that genesis is at the end of my explanation) - and understand that everything starts from an agreed 'state' - not necessarily 0.  Once these three concepts are covered, you should have a working knowledge of blockchain.  If there's more you want to know (or disagree with me on) - please let me know in the comments.</p>

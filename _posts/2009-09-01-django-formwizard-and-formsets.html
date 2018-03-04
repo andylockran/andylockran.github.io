@@ -1,0 +1,166 @@
+---
+layout: post
+title: Django FormWizard and Formsets
+date: 2009-09-01 08:47:28.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  blr_date: '2011-10-16'
+  dsq_thread_id: '349155932'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451786589;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:95;}i:1;a:1:{s:2:"id";i:110;}i:2;a:1:{s:2:"id";i:207;}}}}
+  wp-syntax-cache-content: "a:1:{i:1;s:9629:\"\n<div class=\"wp_syntax\" style=\"position:relative;\"><table><tr><td
+    class=\"code\"><pre class=\"python\" style=\"font-family:monospace;\"><span style=\"color:
+    #66cc66;\">&lt;</span>br/<span style=\"color: #66cc66;\">&gt;</span><span style=\"color:
+    #ff7700;font-weight:bold;\">class</span> CoreInfo<span style=\"color: black;\">&#40;</span>models.<span
+    style=\"color: black;\">Model</span><span style=\"color: black;\">&#41;</span>:\n<span
+    style=\"color: #66cc66;\">&lt;</span>br/<span style=\"color: #66cc66;\">&gt;</span>
+    \   full_name <span style=\"color: #66cc66;\">=</span> models.<span style=\"color:
+    black;\">CharField</span><span style=\"color: black;\">&#40;</span>max_length<span
+    style=\"color: #66cc66;\">=</span><span style=\"color: #ff4500;\">100</span><span
+    style=\"color: black;\">&#41;</span>\n<span style=\"color: #66cc66;\">&lt;</span>br/<span
+    style=\"color: #66cc66;\">&gt;</span>    preferred_name <span style=\"color: #66cc66;\">=</span>
+    models.<span style=\"color: black;\">CharField</span><span style=\"color: black;\">&#40;</span>max_length<span
+    style=\"color: #66cc66;\">=</span><span style=\"color: #ff4500;\">100</span><span
+    style=\"color: black;\">&#41;</span> \n<span style=\"color: #66cc66;\">&lt;</span>br/<span
+    style=\"color: #66cc66;\">&gt;</span>    dob <span style=\"color: #66cc66;\">=</span>
+    models.<span style=\"color: black;\">DateField</span><span style=\"color: black;\">&#40;</span><span
+    style=\"color: black;\">&#41;</span>\n<span style=\"color: #66cc66;\">&lt;</span>br/<span
+    style=\"color: #66cc66;\">&gt;</span>    gender <span style=\"color: #66cc66;\">=</span>
+    models.<span style=\"color: black;\">CharField</span><span style=\"color: black;\">&#40;</span>max_length<span
+    style=\"color: #66cc66;\">=</span><span style=\"color: #ff4500;\">1</span><span
+    style=\"color: #66cc66;\">,</span> choices<span style=\"color: #66cc66;\">=</span>GENDER_CHOICES<span
+    style=\"color: black;\">&#41;</span>\n<span style=\"color: #66cc66;\">&lt;</span>br/<span
+    style=\"color: #66cc66;\">&gt;</span>    <span style=\"color: #dc143c;\">email</span>
+    <span style=\"color: #66cc66;\">=</span> models.<span style=\"color: black;\">EmailField</span><span
+    style=\"color: black;\">&#40;</span><span style=\"color: black;\">&#41;</span>\n<span
+    style=\"color: #66cc66;\">&lt;</span>br/<span style=\"color: #66cc66;\">&gt;</span>
+    \   healthy <span style=\"color: #66cc66;\">=</span> models.<span style=\"color:
+    black;\">BooleanField</span><span style=\"color: black;\">&#40;</span><span style=\"color:
+    black;\">&#41;</span>\n<span style=\"color: #66cc66;\">&lt;</span>br/<span style=\"color:
+    #66cc66;\">&gt;</span>    home_address <span style=\"color: #66cc66;\">=</span>
+    models.<span style=\"color: black;\">ForeignKey</span><span style=\"color: black;\">&#40;</span><span
+    style=\"color: #483d8b;\">'Address'</span>related_name<span style=\"color: #66cc66;\">=</span><span
+    style=\"color: #483d8b;\">'home_addr'</span><span style=\"color: black;\">&#41;</span>\n<span
+    style=\"color: #66cc66;\">&lt;</span>br/<span style=\"color: #66cc66;\">&gt;</span>
+    \   term_address <span style=\"color: #66cc66;\">=</span> models.<span style=\"color:
+    black;\">ForeignKey</span><span style=\"color: black;\">&#40;</span><span style=\"color:
+    #483d8b;\">'Address'</span><span style=\"color: #66cc66;\">,</span> related_name<span
+    style=\"color: #66cc66;\">=</span><span style=\"color: #483d8b;\">'term_addr'</span><span
+    style=\"color: black;\">&#41;</span>\n<span style=\"color: #66cc66;\">&lt;</span>br/<span
+    style=\"color: #66cc66;\">&gt;</span>    <span style=\"color: #ff7700;font-weight:bold;\">def</span>
+    <span style=\"color: #0000cd;\">__unicode__</span><span style=\"color: black;\">&#40;</span><span
+    style=\"color: #008000;\">self</span><span style=\"color: black;\">&#41;</span>:\n<span
+    style=\"color: #66cc66;\">&lt;</span>br/<span style=\"color: #66cc66;\">&gt;</span>
+    \       <span style=\"color: #ff7700;font-weight:bold;\">return</span> <span style=\"color:
+    #008000;\">self</span>.<span style=\"color: black;\">full_name</span>\n<span style=\"color:
+    #66cc66;\">&lt;</span>br/<span style=\"color: #66cc66;\">&gt;</span>\n<span style=\"color:
+    #66cc66;\">&lt;</span>br/<span style=\"color: #66cc66;\">&gt;</span><span style=\"color:
+    #ff7700;font-weight:bold;\">class</span> Address<span style=\"color: black;\">&#40;</span>models.<span
+    style=\"color: black;\">Model</span><span style=\"color: black;\">&#41;</span>:\n<span
+    style=\"color: #66cc66;\">&lt;</span>br/<span style=\"color: #66cc66;\">&gt;</span>
+    \   flat_number <span style=\"color: #66cc66;\">=</span> models.<span style=\"color:
+    black;\">PositiveIntegerField</span><span style=\"color: black;\">&#40;</span>blank<span
+    style=\"color: #66cc66;\">=</span><span style=\"color: #008000;\">True</span><span
+    style=\"color: #66cc66;\">,</span>null<span style=\"color: #66cc66;\">=</span><span
+    style=\"color: #008000;\">True</span><span style=\"color: black;\">&#41;</span>\n<span
+    style=\"color: #66cc66;\">&lt;</span>br/<span style=\"color: #66cc66;\">&gt;</span>
+    \   flat_name <span style=\"color: #66cc66;\">=</span> models.<span style=\"color:
+    black;\">CharField</span><span style=\"color: black;\">&#40;</span>max_length<span
+    style=\"color: #66cc66;\">=</span><span style=\"color: #ff4500;\">100</span><span
+    style=\"color: #66cc66;\">,</span> blank<span style=\"color: #66cc66;\">=</span><span
+    style=\"color: #008000;\">True</span><span style=\"color: #66cc66;\">,</span>
+    null<span style=\"color: #66cc66;\">=</span><span style=\"color: #008000;\">True</span><span
+    style=\"color: black;\">&#41;</span> \n<span style=\"color: #66cc66;\">&lt;</span>br/<span
+    style=\"color: #66cc66;\">&gt;</span>    number <span style=\"color: #66cc66;\">=</span>
+    models.<span style=\"color: black;\">PositiveIntegerField</span><span style=\"color:
+    black;\">&#40;</span><span style=\"color: black;\">&#41;</span>\n<span style=\"color:
+    #66cc66;\">&lt;</span>br/<span style=\"color: #66cc66;\">&gt;</span>    road <span
+    style=\"color: #66cc66;\">=</span> models.<span style=\"color: black;\">CharField</span><span
+    style=\"color: black;\">&#40;</span>max_length<span style=\"color: #66cc66;\">=</span><span
+    style=\"color: #ff4500;\">100</span><span style=\"color: black;\">&#41;</span>\n<span
+    style=\"color: #66cc66;\">&lt;</span>br/<span style=\"color: #66cc66;\">&gt;</span>
+    \   town_city <span style=\"color: #66cc66;\">=</span> models.<span style=\"color:
+    black;\">CharField</span><span style=\"color: black;\">&#40;</span>max_length<span
+    style=\"color: #66cc66;\">=</span><span style=\"color: #ff4500;\">100</span><span
+    style=\"color: black;\">&#41;</span>\n<span style=\"color: #66cc66;\">&lt;</span>br/<span
+    style=\"color: #66cc66;\">&gt;</span>    county <span style=\"color: #66cc66;\">=</span>
+    models.<span style=\"color: black;\">CharField</span><span style=\"color: black;\">&#40;</span>max_length<span
+    style=\"color: #66cc66;\">=</span><span style=\"color: #ff4500;\">100</span><span
+    style=\"color: black;\">&#41;</span>\n<span style=\"color: #66cc66;\">&lt;</span>br/<span
+    style=\"color: #66cc66;\">&gt;</span>    post_code <span style=\"color: #66cc66;\">=</span>
+    models.<span style=\"color: black;\">CharField</span><span style=\"color: black;\">&#40;</span>max_length<span
+    style=\"color: #66cc66;\">=</span><span style=\"color: #ff4500;\">10</span><span
+    style=\"color: black;\">&#41;</span>\n<span style=\"color: #66cc66;\">&lt;</span>br/<span
+    style=\"color: #66cc66;\">&gt;</span>    country <span style=\"color: #66cc66;\">=</span>
+    models.<span style=\"color: black;\">CharField</span><span style=\"color: black;\">&#40;</span>max_length<span
+    style=\"color: #66cc66;\">=</span><span style=\"color: #ff4500;\">100</span><span
+    style=\"color: black;\">&#41;</span>\n<span style=\"color: #66cc66;\">&lt;</span>br/<span
+    style=\"color: #66cc66;\">&gt;</span>    <span style=\"color: #ff7700;font-weight:bold;\">def</span>
+    <span style=\"color: #0000cd;\">__unicode__</span><span style=\"color: black;\">&#40;</span><span
+    style=\"color: #008000;\">self</span><span style=\"color: black;\">&#41;</span>:\n<span
+    style=\"color: #66cc66;\">&lt;</span>br/<span style=\"color: #66cc66;\">&gt;</span>
+    \       <span style=\"color: #ff7700;font-weight:bold;\">return</span> <span style=\"color:
+    #483d8b;\">'%s %s'</span> % <span style=\"color: black;\">&#40;</span><span style=\"color:
+    #008000;\">self</span>.<span style=\"color: black;\">number</span><span style=\"color:
+    #66cc66;\">,</span> <span style=\"color: #008000;\">self</span>.<span style=\"color:
+    black;\">road</span><span style=\"color: black;\">&#41;</span>\n<span style=\"color:
+    #66cc66;\">&lt;</span>br/<span style=\"color: #66cc66;\">&gt;</span></pre></td></tr></table><p
+    class=\"theCode\" style=\"display:none;\">&lt;br/&gt;class CoreInfo(models.Model):\n&lt;br/&gt;
+    \   full_name = models.CharField(max_length=100)\n&lt;br/&gt;    preferred_name
+    = models.CharField(max_length=100) \n&lt;br/&gt;    dob = models.DateField()\n&lt;br/&gt;
+    \   gender = models.CharField(max_length=1, choices=GENDER_CHOICES)\n&lt;br/&gt;
+    \   email = models.EmailField()\n&lt;br/&gt;    healthy = models.BooleanField()\n&lt;br/&gt;
+    \   home_address = models.ForeignKey('Address'related_name='home_addr')\n&lt;br/&gt;
+    \   term_address = models.ForeignKey('Address', related_name='term_addr')\n&lt;br/&gt;
+    \   def __unicode__(self):\n&lt;br/&gt;        return self.full_name\n&lt;br/&gt;\n&lt;br/&gt;class
+    Address(models.Model):\n&lt;br/&gt;    flat_number = models.PositiveIntegerField(blank=True,null=True)\n&lt;br/&gt;
+    \   flat_name = models.CharField(max_length=100, blank=True, null=True) \n&lt;br/&gt;
+    \   number = models.PositiveIntegerField()\n&lt;br/&gt;    road = models.CharField(max_length=100)\n&lt;br/&gt;
+    \   town_city = models.CharField(max_length=100)\n&lt;br/&gt;    county = models.CharField(max_length=100)\n&lt;br/&gt;
+    \   post_code = models.CharField(max_length=10)\n&lt;br/&gt;    country = models.CharField(max_length=100)\n&lt;br/&gt;
+    \   def __unicode__(self):\n&lt;br/&gt;        return '%s %s' % (self.number,
+    self.road)\n&lt;br/&gt;</p></div>\n\";}"
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>I've finally got round to doing a bit of coding in Django to help produce useful applications for the charity that I'm visiting out in India.  So far it's been a pretty painfree experience, and I'm learning more and more about django, which is speeding me up no end.</p>
+<p>One of the applications that I'm writing at the moment is an online application form for future volunteers.  I've written out a model for each of the categories of information that I need to collect, and have created a template and view for displaying that information for end-users.  I also have a view for those people that are logged onto the admin interface for viewing each of the volunteer applications.</p>
+<p>However, I believe there are a few shortcomings in my design that I want to overcome.  The first is that with each separate model I have linked it back to the original CoreInfo model (containing the volunteer's name) using a ForeignKey.  I'm not sure this is the best way to do this, so please advise if you can tell me a better way.</p>
+<pre lang="python">
+<br />class CoreInfo(models.Model):
+<br />    full_name = models.CharField(max_length=100)
+<br />    preferred_name = models.CharField(max_length=100) 
+<br />    dob = models.DateField()
+<br />    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+<br />    email = models.EmailField()
+<br />    healthy = models.BooleanField()
+<br />    home_address = models.ForeignKey('Address'related_name='home_addr')
+<br />    term_address = models.ForeignKey('Address', related_name='term_addr')
+<br />    def __unicode__(self):
+<br />        return self.full_name
+<br />
+<br />class Address(models.Model):
+<br />    flat_number = models.PositiveIntegerField(blank=True,null=True)
+<br />    flat_name = models.CharField(max_length=100, blank=True, null=True) 
+<br />    number = models.PositiveIntegerField()
+<br />    road = models.CharField(max_length=100)
+<br />    town_city = models.CharField(max_length=100)
+<br />    county = models.CharField(max_length=100)
+<br />    post_code = models.CharField(max_length=10)
+<br />    country = models.CharField(max_length=100)
+<br />    def __unicode__(self):
+<br />        return '%s %s' % (self.number, self.road)
+<br /></pre>
+<p>The second problem I have is that in four of the models, I require the end-user to enter in an Address.   Rather than having to retype all the address fields twice, I created an Address class and have linked CoreInfo to it by ForeignKey.  However, I want the user who is accessing the form to only be able to access Addresses from the drop-down that they themselves have entered.  I think I can do this using django sessions, and adding the random session value to the address field, and then filtering the choice list by whether it contains the ID of the session.</p>
+<p>The main problem I have is organising this in a forms.py though.  I'm using FormWizard to iterate through each of my forms, and in doing so appear to have lost fine-tuned access to displaying the home_address and term_address fields.  I'd like to know where to edit their attributes, as I'd want a popup for adding a new address as is done in the admin.  Chances are the term_address might match the home_address, so the drop-down box (current view) with the green '+' would be perfect.</p>
+<p>Hopefully someone who's django fu is strong will be able to advise me; I wait in joyful anticipation.</p>

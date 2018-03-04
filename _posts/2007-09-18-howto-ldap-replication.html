@@ -1,0 +1,56 @@
+---
+layout: post
+title: 'Howto: LDAP Replication'
+date: 2007-09-18 13:10:42.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '259332647'
+  blr_date: '2011-10-18'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1450445371;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:209;}i:1;a:1:{s:2:"id";i:218;}i:2;a:1:{s:2:"id";i:236;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>It's about time that I posted something that's a little more technically minded than previous posts.</p>
+<p>I have to replicated an LDAP database in a backup cluster so that should the main cluster go down, the secondary servers can be brought online.  Here are the steps I've taken to allow a correctly configured LDAP server (LDAP1) to be replicated on a second machine (LDAP2).</p>
+<p>Here's a little GLOSSARY of terms:</p>
+<p>SLAPD  -  the LDAP SERVER (runs on both machines as this is what we're trying to replicate)</p>
+<p>SLURPD - the daemon that handles replication (runs on the master server).</p>
+<p><strong>Master (LDAP1 </strong><strong>) Setup</strong></p>
+<p>You should have a working LDAP server in place on this machine - if not then these steps aren't going to work.</p>
+<p>1.  You need to specify the replicas in your /etc/openldap/slapd.conf file.  binddn= on the slapd server should match the updatedn= parameter on the slurpd server, with write access to the slave database.  This should not be the same dn as the master LDAP rootdn (or the slave one).</p>
+<p>2.  Add a replogfile= directive, from which slurpd will read the changes to slapd.</p>
+<p>Example:</p>
+<p>replica uri=ldap://slave.foo.bar:389<br />binddn="cn=Replicator,dc=foo,dc=bar"<br />bindmethod=simple<br />credentials=secret</p>
+<p>If you want to use port 636 instead of 389 - simple substitute one for the other.  If you are using SSL - set ldap:// to ldaps:// and specify port 636 too.  Also note that 'uri=' is used instead of the deprecated 'host=' option.  If you stick with that you get  lots of TLS errors.</p>
+<p><strong>Slave (LDAP2) Setup</strong></p>
+<p>Currently, you're slave server should have no ldap-server installed on it (you may have some client LDAP scripts, but these shouldn't interfere with the new setup).</p>
+<p>The server needs to be setup identically to the master server, (copy over /etc/ldap.conf, /etc/openldap/ldap.conf and /etc/openldap/slapd.conf,) but with the following changes:</p>
+<p>1.  Do not create a replica directive*.</p>
+<p>2.  Do not include the replogfile.</p>
+<p>Example:</p>
+<p>updatedn        "cn=Replicator,dc=foo,dc=bar"<br />updateref       ldaps://master.foo.bar:636<br />3.  The updatedn= parameter should match the binddn= parameter of the replica in slapd.conf</p>
+<p>4.  The updateref= parameter can be used to define the URL the slave should return if an update request is received.</p>
+<p>* It is possible to have a slurpd slave pulling information off another slurpd slave, but in most cases it is inappropriate.</p>
+<p>5. Chance all references to the original server (ldap.foo.bar) so the new server (slave.foo.bar).</p>
+<p>6. For the purpose of ACLS, add: access to *<br />by dn.exact="cn=Replicator,dc=foo,dc=bar" =xw<br />by * none break<br />to the start of your list of ACLs.</p>
+<p><strong>SSL/TLS</strong></p>
+<p>If you're using TLS/SSL - make sure your certificates have the commonName attribute set to the FQDN of the machine they're on (eg. slave.foo.bar).</p>
+<p><strong>Going Live</strong></p>
+<p>This is always my favourite bit.  It sometimes goes fantastically - but most of the time I fall back on my face.  I'm sure this is great reading if you're following my instructions, but I thought I'd stick it in as some sort of disclaimer.</p>
+<p>To make sure that the databases are identical, you must shutdown the master server on LDAP1.  I advise against doing this during the normal working day if lots of people use the server.  People could get mad.  If you need the server to be live whilst you are maintaining it (I DO NOT RECOMMEND THIS) then you can restart the LDAP server in read-only mode (which will not allow people to modify it).  However, in my experience, saving the work for when no one is about is better.</p>
+<p>If you're running LDAP server on different architectures, it's better to use slapcat to output an *.ldif file to import into the slave DB (as copying databases across architectures will increase chances of issues).</p>
+<p>I hope this works for you - it's fairly simple and much is borrowed from other guides - but it is a little clearer to me now how to do it.  If you know better ways, please notify me using the comments and I'll update the main article.</p>
+<p>(I do not recommend sticking with the credentials on this page).</p>
+<p><strong>Troubleshooting</strong></p>
+<p>err=49 = wrong credentials (you have got your username/password wrong).</p>

@@ -1,0 +1,45 @@
+---
+layout: post
+title: Back to the DevOps world (temporarily)
+date: 2017-10-26 22:11:17.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags:
+- devops
+- gruntwork.io
+- infrastructure
+- terraform
+meta:
+  _wpas_skip_10539271: '1'
+  _edit_last: '1'
+  _publicize_twitter_user: "@andylockran"
+  _wpas_done_all: '1'
+  _wpas_skip_10539259: '1'
+  _gtm_vars: a:0:{}
+  _wpas_mess: Back to the DevOps world (temporarily)
+  _wpas_skip_13286454: '1'
+  _wpas_skip_9106205: '1'
+  _wpas_skip_9106195: '1'
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>For the past few years I've been kept away from lower-level coding and ops through being employed to fulfill quite different functions. It's all part of a wider career ambition, so I can't fault the fact I've not been down and dirty with the code - but coming back to it has been quite a shock (in a good way).</p>
+<p>I left full time SysAdmining towards the end of 2011, with puppet becoming mainstream, and containers becoming a thing (but with OpenVZ, rather than docker at that stage) - at least for me.</p>
+<p>In the current brave new world I've been introduced to <a href="https://www.terraform.io/">terraform</a>. It's definitely firmly towards the 'dev' end of the DevOps spectrum; with a fairly low barrier to entry, but an obvious need for structure, design and adherence to best practices.  Kudos to those guys publishing their modules and sharing their ideas, especially the modules already up on the <a href="http://registry.terraform.io">terraform registry</a>. It's also quite fun to be working on something pre V1.0.0 (love <a href="http://semver.org/">SemVer</a>!) and with progress really yet to be made on tooling.</p>
+<p>Two things have really helped me get up to speed quickly with it, and a big shout out has to goto <a href="https://gruntwork.io/about/">GruntWork.io</a> for their part.</p>
+<p>Here's my learning so far:</p>
+<p>1) Follow the Getting Started guide and get some stuff up. Did this in my personal account, on the free tier - then pulled it all down. Neat!</p>
+<p>2) Did a few bits of hacking, and put together a module for an Airflow service.</p>
+<p>3) Got into work early one morning to get 45 minutes to properly <a href="https://www.youtube.com/watch?v=LVgP63BkhKQ">watch this awesome video</a> on reusable terraform modules. It's wonderfully articulated, and the guy presenting has a great and relaxed style.  . (cheers Jim!)</p>
+<p>4) Did a bit more hacking and discovered <code>terraform env</code> is deprecated.  Hmmm.</p>
+<p>5) Lastly, (and only tonight) I bought "<a href="https://www.terraformupandrunning.com/">Terraform, up and running.</a>" for my kindle and read it cover to cover (despite the fact I only had three hours sleep last night). Though it's a little bit out of date already (v.0.8, whereas we're now on v0.10), it covers off some really good concepts, and shares some best practices around working in larger teams.  Hopefully soon I'll be posting on what new concepts introduced since v0.8 I'm finding useful.</p>
+<p>Let me know if you're using terraform, and any tips or problems you've faced.</p>

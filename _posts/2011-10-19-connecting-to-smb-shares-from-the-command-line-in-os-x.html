@@ -1,0 +1,37 @@
+---
+layout: post
+title: Connecting to SMB shares from the command line in OS X
+date: 2011-10-19 21:25:34.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags:
+- network
+- osx
+- samba
+- ubuntu
+meta:
+  _edit_last: '2'
+  blr_date: '2011-10-19'
+  dsq_thread_id: '448113406'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451777016;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1638;}i:1;a:1:{s:2:"id";i:57;}i:2;a:1:{s:2:"id";i:116;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p><strong><a href="http://zrmt.com/wp-content/uploads/2011/10/lion.jpg"><img class="size-full wp-image-1605 alignright" title="lion" src="{{ site.baseurl }}/assets/lion.jpg" alt="" width="169" height="190" /></a></strong></p>
+<p>&nbsp;</p>
+<p>I'll keep this one short for brevity. It's sweet and simple. If you're anything like me you're probably using at least 10 different operating systems at once. Well, that might be a slight over exaggeration, but I certainly use at least three in my home. Here's the problem that I faced this evening and how I overcame it.</p>
+<p>I have a linux server which is sharing some data using a samba share (SMB). Connecting to this from my windows box is simple, since microsoft is good enough to make mounting shares over SMB a piece of cake. My MacbookPro running OS X Lion, however, was a different story.</p>
+<p>One option is to use the finder to manually connect to the share, but since I often connect to various computers using SSH I wanted to find a purely command-line solution. Thankfully, it's super simple. Just use the UNIX command mount - as follows:</p>
+<p><strong>mount -t smbfs //&lt;username&gt;@&lt;ip or fqdn&gt;/&lt;share name&gt; &lt;mount point&gt;</strong></p>
+<p>The example of this on my network is as follows:</p>
+<p><strong>mount -t smbfs //james@192.168.0.4/james /Users/jamesanslow/linuxserverfiles</strong></p>
+<p>Note: you will require smbfs + samba installed + configured for this to work (<a title="How to install samba on Ubuntu" href="http://jamesanslow.net/blog.html" target="_blank"><em>duh?</em></a>)</p>

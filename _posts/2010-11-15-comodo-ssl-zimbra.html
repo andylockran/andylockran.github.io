@@ -1,0 +1,41 @@
+---
+layout: post
+title: Comodo SSL + Zimbra
+date: 2010-11-15 15:01:05.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '178270262'
+  blr_date: '2011-10-19'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451594964;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:272;}i:1;a:1:{s:2:"id";i:116;}i:2;a:1:{s:2:"id";i:101;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>I recently had to install a Comodo SSL certificate onto a Zimbra Server.  Unfortunately, if you already have a certificate there is no simple way of installing a SSL certificate that you've already purchased, hence the need for these instructions.</p>
+<p>When you purchase a SSL cert from Comodo, you'll end up with three files:</p>
+<li> $hostname.crt  = your cert file</li>
+<li>$hostname.ca-bundle = the bundle file</li>
+<li>$hostname.key (the key you produced and used to create the Signing Request).</li>
+<p>Once you have these three files, copy the first to to your /tmp directory, and copy the key file to:</p>
+<pre>/opt/zimbra/ssl/zimbra/commercial/commercial.key</pre>
+<p>Once you've done that, you need to download an extra couple of certs from Comodo, depending on when you purchased your certificate.  I used the pre-March 2009 version, from here <a href="https://support.comodo.com/index.php?_m=downloads&_a=viewdownload&downloaditemid=12&nav=0,1,5"> Comodo Downloads</a>.</p>
+<p>Once you've downloaded them, add them to the end of your ca-bundle file. </p>
+<p>With that done, as root, run </p>
+<pre>/opt/zimbra/bin/zmcertmgr verifycrtchain comm /tmp/$hostname.crt /tmp/$hostname.ca-bundle </pre>
+<p>Providing that doesn't error out, then you're good to deploy.</p>
+<pre>/opt/zimbra/bin/zmcertmgr deploycrt comm /tmp/$hostname.crt /tmp/$hostname.ca-bundle</pre>
+<p>Switch to the Zimbra user:</p>
+<pre>su - zimbra</pre>
+<p>Then restart all zimbra services:</p>
+<pre>zmcontrol restart</pre>
+<p><em>Your new certificates are now installed!</em></p>

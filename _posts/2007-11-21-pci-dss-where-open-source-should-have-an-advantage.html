@@ -1,0 +1,37 @@
+---
+layout: post
+title: PCI DSS* - where Open Source should have an advantage.
+date: 2007-11-21 18:39:40.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '255149013'
+  blr_date: '2011-10-09'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1452000846;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:364;}i:1;a:1:{s:2:"id";i:84;}i:2;a:1:{s:2:"id";i:77;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p><em>PCI DSS = Payment Card Industry Data Security System.   </em></p>
+<p>Over the past few weeks and months I've been helping to develop a PCI DSS System for a client.  It's been quite a feat as there are quite a few integrity checks, tripwire monitors to set up and automate - as well as having the services that are running audited for secure protocols - and policies in place to make sure that any holes are patched and recorded properly.  It's been quite a big learning experience for me - not only in the technological challenges, but the managerial "nuances" of passing an audit.</p>
+<p><strong>Standards</strong></p>
+<p>The first thing is that the PCI requirements are the same across all companies that handle/store credit card data.  There are <a href="https://www.pcisecuritystandards.org/tech/" title="PCI DSS">12 main requirements</a>, each of them having sub-requirements which go into more specific detail.  Things like password policies and log retention periods are stated.  It's hardly environmentally friendly either - as at least two (if not three) different physical servers are needed to fulfil the requirements - and for backup purposes that doubles if you're going to have failover redundancy.</p>
+<p><strong>Security by Obscurity</strong></p>
+<p>One of the biggest pains I had with the PCI DSS implementation was that there wasn't much guidance or howtos on how other people had secured their PCI systems.  Well it's not too surprising really - if your securing a system you're hardly going to want to publish details about how you've done it.  However, security by obscurity is as good as none when someone finally breaks the obscurity.</p>
+<p><strong>Together we prevail, divided we fall.</strong></p>
+<p>I would argue that this should be a motto of every open source group functioning.  It would save so much time and money if, for example, Red Hat were to provide a "PCI compliant" authentication server and webserver cluster.  Imagine setting up two servers and running:<br />
+<blockquote>rpm -ivh dbserver</p>
+<p>rpm -ivh wwwserver</p></blockquote>
+<p>It'd save a whole lot of time and effort on the part of an individual systems administrator.</p>
+<p>However, it doesn't need a behemoth like Red Hat or someone to do this - it needs a few people working together to set up their own repository - and have some incentive for doing it.  It doesn't have to even be the packages - it could just be documentation for now.  An anonymous library of PCI documentation could save administrators alot of time.</p>
+<p>I've posted some of my howtos on the blog for the last couple of months related to OpenLDAP.  This is an integral part of any GNU/Linux PCI system, in my opinion, as monitoring user activity/authentication is central to passing the audit.  No shared passwords and well managed users <strong>must </strong>be stored in a single directory.  OpenLDAP is made for this purpose.</p>
+<p>I'll hopefully be releasing more documentation as time progresses.  If you have been through a PCI audit recently - and would also like to help out your fellow Open Source Administrators - don't hesitate to post me some of your documentation.  I'll set up a wiki if I start getting lots of it through.</p>

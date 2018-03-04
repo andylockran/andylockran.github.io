@@ -1,0 +1,41 @@
+---
+layout: post
+title: Encrypt a Filesystem within a file.
+date: 2008-08-22 13:55:24.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '238755405'
+  blr_date: '2011-10-06'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1450909705;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1565;}i:1;a:1:{s:2:"id";i:1638;}i:2;a:1:{s:2:"id";i:57;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>In order to use LUKS to encrypt a filesystem that is contained in a file, you actually have to follow the same steps as when encrypting a physical partition, plus two. These include:
+<ul>	
+<li>The creation of a file that will contain the encrypted partition</li>
+<p>	
+<li>Set up an association between this file and a free loop device, so that it can be used by cryptsetup as a block device. At the moment, cryptsetup cannot use a file as a block device directly. That’s why this step is needed.</li>
+<p></ul>
+<p>So, let’s create the file. The following command creates an 100MB file, named "<strong>container1</strong>", which is full of random data:
+<pre class="console">dd if=/dev/urandom of=container1 bs=1024 count=100000</pre>
+<p>To create a mapping between this file and a free loop device, we’ll use <strong>losetup</strong> (part of util-linux). Check which loop device is free in your system with the command:
+<pre class="console">losetup -f</pre>
+<p>For me it was <em>/dev/loop0</em>. So, I map the "container1" file to /dev/loop0. As root:
+<pre class="console"># losetup /dev/loop0 /path/to/container1</pre>
+<p>From now on, the steps are exactly the same as before. We just use /dev/loop0 instead of the ZIP disk:
+<pre class="console"># cryptsetup --verbose --cipher "aes-cbc-essiv:sha256" --key-size 256 --verify-passphrase luksFormat /dev/loop0<br /># cryptsetup luksOpen /dev/loop0 encr-container1<br /># mkfs.ext3 /dev/mapper/encr-container1<br /># mount -t ext3 -o rw,defaults /dev/mapper/encr-container1 /mnt/tmp/</pre>
+<p>We can now copy some files to our encrypted partition, like on a regular disk partition. We unmount it and delete the device mappings with the following commands:
+<pre class="console"># umount /mnt/tmp/<br /># cryptsetup luksClose encr-container1<br /># losetup -d /dev/loop0</pre>
+<p>So, to mount a LUKS encrypted filesystem within a file you need to create <strong>two device mappings</strong> before you mount it for use. Of course some automation can be achieved using scripts, but you will still have to supply the passphrase in order to use the encrypted partitions.</p>
+<p><em>Originally published: </em><em><a title="Original" href="http://www.g-loaded.eu/2005/11/10/encrypt-devices-using-dm-crypt-and-luks/">Here</a></em></p>

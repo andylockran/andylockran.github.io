@@ -1,0 +1,37 @@
+---
+layout: post
+title: AOL Router Settings
+date: 2007-10-23 20:12:10.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '177957683'
+  blr_date: '2011-10-13'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451567016;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:67;}i:1;a:1:{s:2:"id";i:209;}i:2;a:1:{s:2:"id";i:297;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>I don't use AOL (Thank the Lord) but if I did I think I'd cry.</p>
+<p>I've just had to set up an AOL router (for the third time) due to AOL's particular router settings.  So this post is for my benefit (for the next time I'll have to do it) and for whoever else is looking for the settings.  They may also be applicable to Linux Boxes trying to connect without a router, so here you go.
+<ol>	
+<li>Make sure the encapsulation is set to <strong>PPPoA</strong>, not <strong>PPPoE</strong>.</li>
+<p>	
+<li>Select <strong>VC</strong> with QOS type <strong>UBR</strong>.</li>
+<p>	
+<li>Disable the <strong>auto-detect</strong> option for VC settings.</li>
+<p>	
+<li>Manually input VPI value <strong>0</strong> and VCI value <strong>38</strong>.</li>
+<p>	
+<li>Enter your <strong>username</strong> (user@aol.com) and <strong>password</strong>.</li>
+<p></ol>
+<p>I hope this is as useful for you as it has been for me.</p>

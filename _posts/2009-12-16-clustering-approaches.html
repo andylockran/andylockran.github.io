@@ -1,0 +1,32 @@
+---
+layout: post
+title: Clustering Approaches
+date: 2009-12-16 01:24:04.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  blr_date: '2011-10-08'
+  dsq_thread_id: '419976282'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1449567871;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:102;}i:1;a:1:{s:2:"id";i:257;}i:2;a:1:{s:2:"id";i:289;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>Coming from a non-Computer Science education, there are lots of things which I am ignorant of in the world of System Administration.  The things I know about, I can understand (else I'd make a very poor sysadmin), but there are gaps in my knowledge which catch me out.</p>
+<p>An article I enjoyed reading today, <a href="http://varnish.projects.linpro.no/wiki/ArchitectNotes">was one written</a> by the Software Architect of Varnish, and covers the fundamental difference between programming for 2006 versus programming for 1975.  Despite my work being limited to higher-level languages, or glorified bash-scripting, it's necessary in my view to have an understanding of the underlying technology, so that it's possible to code effectively.</p>
+<p>Much of my knowledge, like most in the hacker community, has been gained by reading through other people's code, and by hacking on it until something usable comes out of it.  I was quite pleased that today I managed to write my first python code with an __init__ function and docstrings - without having to consciously go back and work out how to do it properly a second time. The code I wrote wasn't pretty - but I knew I'd done it in a modular way, so that the functions returned the values I needed, and so were reusable.</p>
+<p>Moving out of my little world and into the world of work, one of the things that I'm starting to look at now is clustering.  This isn't to keep up with the Jones' and have our own 'cloud' - but more to have redundancy and automatic fail-over spread across multiple devices, both physical and virtual.  The way I see it, virtualisation strategy is extremely complex beast, in that there are plenty of ways of virtualising.  Clustering isn't necessarily analogulous with virtualisation, but virtualised clusters theoretically provides a neat way of expanding clusters, without necessarily having to expand across lots of redundant hardware.</p>
+<p>Despite the current threats to the project, one such avenue I'm investigating is MySQL clustering.  If I virtualise MySQL servers across virtual machines and link them via replication, it's not clustering.  There are downsides and upsides to this approach, but for it to be clustering, you'd need to be using MySQL's cluster mechanism, which is something else to learn.  I'd also like to work out a way to do a clustered filesystem across multiple machines, a bit like RAID5 across three disks, but networked clients, rather than just disks wired to the same controller.  Lots of constraints seem to pop into my head, like I/O - bandwidth, caching and overwriting keys on databases which go out of sync.</p>
+<p>Going back to the article, one of the key points that I brought out from it was that although it's good to have an understanding of the underbelly of what's going on, if you're wanting to do something fancy at the low level, the chances are that the kernel is already doing it.  Varnish, the caching project, gets astonishing performance figures, albeit in a non-production environment.  It does this by making sure that it doesn't do clever stuff that something else is already doing.  In essence, that's my job.  I need to make sure that I don't start installing virtualisation and automatic configuration scripts, if someone else has already set something up that'll do it for me. </p>
+<p>That's not to say I'm lazy.  I'm not.  I just want to make sure that the way I'm moving is the most efficient use of my time, the computer's time, and gives my client and employer best value for money.  Is there any point in setting up MySQL clustering, if I can run a virtual machine across multiple servers - adding more servers to the computer as I go.  Is it worth looking at the clustering options of my distribution.  When I installed CentOS 5 (the distribution of choice at the client) - does it make sense to look into what the 'Clustering' group of packaged software provides.  Are there other best practises documented out there which give me the answer?</p>
+<p>Well I'm not expecting anyone to come in and give me all the answers, but I am hoping that anyone else who's reading this and has the same itch to scratch will either benefit from my work, or offer me their experience.  I'll keep the 'blog updated with the technology reviews, but is there a bigger point I'm missing?</p>
+<p>If anyone has insight or advice to give, I'm ready to listen.</p>

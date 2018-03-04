@@ -1,0 +1,62 @@
+---
+layout: post
+title: PXE Server - Beyond Network Installations
+date: 2009-02-27 13:52:57.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '267952785'
+  blr_date: '2011-10-13'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1449997037;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:67;}i:1;a:1:{s:2:"id";i:1638;}i:2;a:1:{s:2:"id";i:297;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>A few weeks back I re-published a <a href="http://www.debian-administration.org/articles/478">great article</a> on setting up a PXE server.  Since then I've had to use this server for a number of other tasks, from cloning 15 machines to running Ubuntu LiveCD over a PXE network.  I'd like to share with you a couple more tips on getting the most from your PXE Server.</p>
+<p><strong>NFS</strong></p>
+<p>In order to get the most out of your PXE, I recommend install nfs on your machine.<br />
+<br /><code>apt-get install nfs-kernel-server</code><br />
+<br />With this you'll be able to share more than just the initial boot - but mount directories after boot to have a fat-client setup.<br />
+<br />My exports file (directories which I've explicitly shared via NFS looks like this:<br />
+<br /><code>/exports/clonezilla *(ro,sync)<br />
+<br />/exports/ubuntu *(ro,sync)<br />
+<br />/exports/images *(rw,sync)</code><br />
+<br />I don't currently have a fat-client setup, but the above directories are a good introduction to two ways of extending the PXE Server.</p>
+<p><strong>Clonezilla</strong></p>
+<p>Clonezilla Live, based on <a href="http://drbl.sf.net/">DRBL</a>, <a href="http://www.partimage.org/" target="_blank">Partition Image</a>, <a href="http://www.linux-ntfs.org/" target="_blank">ntfsclone</a>, <a href="http://partclone.org/">partclone</a>, and <a href="http://udpcast.linux.lu/" target="_blank">udpcast</a>, allows you to do bare metal backup and recovery.  That means it reads the physical hard disk, and copies the blocks one-for-one.  This is pretty useful when cloning identical machines (which is what I was doing) - but there's also a Server Edition - which uses multicasting and is capable of cloning a 5.6GB Disk Image onto 42 machines simulteneously in around 10 minutes.</p>
+<p>I downloaded Clonezilla Live! from the <a href="http://www.mirrorservice.org/sites/download.sourceforge.net/pub/sourceforge/c/cl/clonezilla/">UK Mirror Service</a>.<br />
+<br /><code>cd /tmp</code></p>
+<p>wget http:////www.mirrorservice.org/sites/download.sourceforge.net/pub/sourceforge/c/cl/clonezilla/clonezilla-live-1.0.11-19.iso<br />
+<br />Once that's done, I mounted it at /media/clonezilla</p>
+<p><code>mkdir /media/clonezilla</code></p>
+<p>mount -t loop /tmp/clonezilla-live-1.0.11-19.iso /media/clonezilla<br />
+<br />then copied the entire iso into /exports/clonezilla<br />
+<br /><code>cp -r /media/clonezilla/* /exports/clonezilla</code><br />
+<br />Since that was now setup - and using the PXE configuration from the previous post, I created the folder clonezilla in /var/lib/tftpboot/ and copied the kernel and initrd there.<br />
+<br /><code>mkdir /var/lib/tftpboot/clonezilla<br />
+<br />cp /exports/clonezilla/live/initrd.img /var/lib/tftpboot/clonezilla<br />
+<br />cp /exports/clonezilla/live/vmlinuz /var/lib/tftpboot/clonezilla</code><br />
+<br />I then edited /var/lib/tftpboot/pxelinux.cfg/default to include the following<br />
+<br /><code><br />
+<br />LABEL clonezilla<br />
+<br />kernel clonezilla/vmlinuz1<br />
+<br />append initrd=clonezilla/initrd1.img boot=live union=aufs netboot=nfs nfsroot=192.168.1.12:/exports/clonezilla</code><br />
+<br />Once that was saved, I could then boot up a machine over the network - and typing 'clonezilla' at the prompt allowed me to boot into clonezilla and clone my computers :)</p>
+<p><strong>Ubuntu LiveCD</strong></p>
+<p>The Ubuntu live CD pretty much followed the same configuration as the Clonezilla setup (except, of course, downloading the iso of ubuntu, not Clonezilla).</p>
+<p>The pxelinux.cfg/default entry is also slightly different (NB: casper), and as I already had ubuntu intrepid and hardy directories in the tftpboot directory - I created a new directory called /live (which has the latest iso in it).<br />
+<br /><code><br />
+<br />LABEL ubuntulive<br />
+<br />kernel ubuntu/live/vmlinuz<br />
+<br />append initrd=ubuntu/live/initrd boot=casper netboot=nfs nfsroot=192.168.1.12:/exports/ubuntu<br />
+<br /></code><br />
+<br />The next stage for me is to set up the /var/lib/tftpboot dir to automatically rsync the latest version of all the files, and for the /exports/ directories for the isos to do the same.  However, as this is currently a 'work setup,' I don't have the time available to implement this.  I hope that I can get something sorted for India though, as I've been asked to look into setting up a mini computer suite - and having second hand computers booting over PXE would be a pretty good way of managing them (and lowers the overhead in setting up the PCs individually).  I'm also looking at ltsp, so if anyone can give me some advice I'm sure it'd be welcome in the not-to-distant future.</p>

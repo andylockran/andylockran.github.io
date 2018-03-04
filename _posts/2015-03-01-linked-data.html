@@ -1,0 +1,57 @@
+---
+layout: post
+title: Linked Data
+date: 2015-03-01 20:27:21.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags:
+- data standards
+- data structures
+- edf electricity monitor
+- iot
+- mqtt
+- opensensors.io
+- python
+- serial communications
+- Tim Berners Lee
+- URI
+meta:
+  _publicize_twitter_user: "@andylockran"
+  _wpcom_is_markdown: '1'
+  _edit_last: '1'
+  _oembed_07ee144cb871f841cf09c2e6f75362c3: "{{unknown}}"
+  _flattr_post_hidden: '0'
+  _flattr_post_customurl: ''
+  _wpas_done_all: '1'
+  dsq_thread_id: '3558959440'
+  _wpas_skip_9106199: '1'
+  _wpas_skip_9106205: '1'
+  _wpas_skip_9106195: '1'
+  _wpas_skip_10539271: '1'
+  _wpas_skip_10539259: '1'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451632507;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1716;}i:1;a:1:{s:2:"id";i:1739;}i:2;a:1:{s:2:"id";i:1707;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>A few weeks ago I wrote about how <a title="Electricity Usage" href="http://uth.zrmt.com/angular" target="_blank">I'd linked up my EDF Energy Monitor</a> to save the minutely electricity usage in my home.  It's been a useful little project, and saved me a fair bit of cash by making sure that we were on top of the electricity consumption.</p>
+<p>I recently came across <a title="OpenSensors.io" href="http://opensensors.io" target="_blank">opensensors.io</a> - a community of like-minded people who are able to share their data through 'topics' on the site - and publish any unstructured data to the site for others to consume.  Whilst my electricity usage isn't necessarily the most informative of datasets, it does enable others to see the data structures of the EDF Energy Monitor, and write their software so.</p>
+<p>This has led me to a bit of angst, which I also believe to have already been solved by the advocates of NoSQL.  Is my data, if unstructured, actually useful?</p>
+<p>In my view, Tim Berners Lee gave a bit of an underwhelming talk, on taking the web to the next level.  Underwhelming in the sense that it's simple, yet seemed to contain some top-down logic that implementing would require a documented structure for each type of data.  The three rules are:</p>
+<p>1) We need to use a URI for a single product/event<br />
+2) If i lookup a URI, I will get data back <strong>in a standard format</strong><br />
+3) When i get that information, it has relationships to other data, based on their own URIs.</p>
+<p>Taking my <a title="ElectricityUsage" href="http://opensensors.io/users/andylockran/ElectricityUsage" target="_blank">ElectricityUsage </a>topic on OpenSensors.io as an example - I work out how far I am being compatible with TBL's vision.</p>
+<p>1) Yes. The device itself has a unique URI and using the opensensors.io API, it's possible to generate a unique URI for each event (albeit using querystrings).</p>
+<p>2) Yes, The data should be returned in a standard format.  This is the bit that confused me.  I though a standard format would be a prescriptive format that explained the structure of the response.  However, I now realise that this would be fairly impossible to police and manage.  Therefore as long as the <strong>format </strong>of the data is of a standard (eg, json, xml) then the <strong>structure</strong> is a completely different beast.</p>
+<p>3) No - this is the bit that I need to work on.  For my original app, the output of the sensor (xml) was saved to a MySQL database table, and I then wrote another API get data out of that table and into json for my Angular JavaScript app.  I think the question is that to be more useful to others with the same hardware, I should upload the raw xml to opensensors.io - so that the datastructures are of a de facto standard, rather than my own parsing of the xml.  That said, the raw xml also does not contain any URIs to other relational data, so making this change would still end up with point 3 not being met.</p>
+<p>Please take time to watch the talk, and let me know your views on how this impacts the internet of things.</p>
+<p><iframe src="https://embed-ssl.ted.com/talks/tim_berners_lee_on_the_next_web.html" width="640" height="360" frameborder="0" scrolling="no" allowfullscreen="allowfullscreen"></iframe></p>

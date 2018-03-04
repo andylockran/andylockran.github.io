@@ -1,0 +1,38 @@
+---
+layout: post
+title: Control4 Driver Development
+date: 2015-11-01 15:01:26.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags:
+- control4
+- encryption
+- heatmiser
+- heatmiser v3
+- lua
+- python
+meta:
+  _edit_last: '1'
+  _publicize_twitter_user: "@andylockran"
+  _wpas_done_all: '1'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1452077815;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1824;}i:1;a:1:{s:2:"id";i:1855;}i:2;a:1:{s:2:"id";i:1854;}}}}
+  _gtm_vars: a:0:{}
+  dsq_thread_id: '4279830369'
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>I've had a bit of time over the weekend to sort through a few things and 'get my geek on' a little bit. I guess it's a bit like my uncle's used to tinker with their cars, I like to tinker with technology. It's been a good one, but ended up with a slightly bad taste in my mouth, thanks to a closed-off eco-system around Control4 driver development.</p>
+<p><img class="aligncenter size-medium wp-image-1821" src="{{ site.baseurl }}/assets/hqdefault-300x225.jpg" alt="Control4" width="300" height="225" /></p>
+<p>When I moved into my flat just over 3 years ago, it came with a Control4 home automation system. I loved it. It's a neat little system with a load of functionality that allows you to manage the connections between all the connected devices in the building, and trigger actions/reactions based on an event occurring. There's lots of potential here, and I got myself setup with a raspberry pi2 in order to add some 'extra' functionality and integrate things outside of the Control4 ecosystem.</p>
+<p>One of the devices that I've been most keen to get integrated properly is our Heatmiser UH1 rig. It's effectively a box that's connected to each of our individual thermostats. 4 power heating in each of the rooms, and 1 powers the hot water. The driver that came with the Control4 system (produced by ExtraVegetables) is now marked as 'FREE' - but it's still encrypted, so not possible to reverse engineer.</p>
+<p>I understand that engineers need to be rewarded for the time spent on writing their software, but there's minor new features that need adding that'll make the software so much better. I finally had the chance to sit down and look at the pure python implementation of the Heatmiser v3 protocol, and within about 20 minutes of hacking I'd worked out what message to sent to the hot-water timer to get it to 'boost'. However, I'm now stuck as unless I duplicate the logic for converting the message into a CRC hash and learn how to program in lua, I'm stuck.</p>
+<p>If there are any Control4 devs out there that fancy giving me a hand or pointing me down the right road, I'd love to hear from you &amp; for the ExtraVegetables people that are now at Control4 full-time - if you want to 'open up' the driver for me so that I can make the amends and give you the code back - I'd do it for free!</p>

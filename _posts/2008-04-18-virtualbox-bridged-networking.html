@@ -1,0 +1,45 @@
+---
+layout: post
+title: VirtualBox & ‘bridged networking’
+date: 2008-04-18 01:13:52.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '242951562'
+  blr_date: '2011-10-10'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451948354;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:67;}i:1;a:1:{s:2:"id";i:297;}i:2;a:1:{s:2:"id";i:57;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>I've just started using VirtualBox on my freshly installed Debian PC to do my Virtual Machines, as the kernel support from VMware was just not up to date with my recent kernel.  If I wait a few weeks, it'll probably be there, but the ship has sailed for me.</p>
+<p>VirtualBox is a nice qt styled Virtual Machine Server, being free and open source.  It's nice and simple to set up a new machine, and can cope with a variety of hosts and guest Operating Systems.</p>
+<p>However, one drawback was the networking support.  In vmware-server - I could just tick a box and it'd bridge over my  host computer's network card to make it appear like it was on the same network as all the other machines.  With VirtualBox it isn't quite so simple.</p>
+<p>Run the command:<br />
+<blockquote>echo 1 &gt;&gt; /proc/sys/net/ipv4/ip_forward</p></blockquote>
+<p>If you're running Debian/Ubuntu add the following to /etc/network/interfaces<br />
+<blockquote> # This file describes the network interfaces available on your system<br /># and how to activate them. For more information, see interfaces(5).</p>
+<p># The loopback network interface<br />auto lo<br />iface lo inet loopback</p>
+<p># setting up the bridge #######<br />auto eth0<br />iface eth0 inet manual<br />up ifconfig $IFACE 0.0.0.0 up<br />down ifconfig $IFACE down</p>
+<p>auto br0<br />iface br0 inet dhcp<br />bridge_ports eth0<br /># End setting up the bridge ###</p></blockquote>
+<p><em>I commented out (rather than deleted) my current setup, so that it's easy to go back to if you move away from VirtualBox</em></p>
+<p>That will set your PC up to have a bridged network for eth0.</p>
+<p>You then need to give VirtualBox an interface to connect to:</p>
+<p>Run:<br />
+<blockquote> sudo VBoxAddIF vbox0 &lt;user&gt; br0<br />VBoxManage modifyvm "My VM" -hostifdev1 vbox0</p></blockquote>
+<p>In you VirtualBox Machine settings, make sure the VM is powered off and selected.</p>
+<p>Click on the 'details' tab.</p>
+<p>Click on 'network.'</p>
+<p>Make sure the network adapter is enabled.</p>
+<p>Select the 'attached to: HOST INTERFACT'option in the top box, and enter vbox0 as the Host Interface Name in the bottom box.</p>
+<p>Click 'OK'  - and restart the computer to allow the bridge settings to take effect.</p>
+<p>You should have the desired setup now :)  Enjoy!</p>

@@ -1,0 +1,49 @@
+---
+layout: post
+title: Networking - let's get complicated.
+date: 2011-10-18 19:03:37.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags:
+- architecture
+- design
+- firewall
+- internet
+- networking
+- switching
+meta:
+  _edit_last: '1'
+  blr_date: '2011-10-18'
+  dsq_thread_id: '447074136'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1448400929;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:218;}i:1;a:1:{s:2:"id";i:84;}i:2;a:1:{s:2:"id";i:209;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>Ok, so things have hotted up a notch in here.  My networking knowledge has come on leaps and bounds in the past few months, but I need to learn more, lots more, and fast. Here's where I'm at:</p>
+<p><em>A firewall doesn't always sit at the edge of your estate, sometimes a HIDS device belongs there instead.</em></p>
+<p><em>A firewall can do lots of things, but can do a lot of things badly.</em></p>
+<p><em>There is more than one way to skin a cat.</em></p>
+<p>So I've been looking at some interesting reading, courtesy of <a title="Sourceguru" href="http://www.sourceguru.net/">Mez</a>, and have come across the following:</p>
+<p><a title="Firewall Design" href="http://oreilly.com/catalog/fire/chapter/ch04.html">http://oreilly.com/catalog/fire/chapter/ch04.html</a> - Firewall Design.</p>
+<p>This interests me muchly, as I currently use, and have always designed server-networks in the past as follows:</p>
+<p><a title="Firewall Design" href="http://oreilly.com/catalog/fire/chapter/fire0407.gif" target="_blank"><img class="aligncenter" title="Default Thinking" src="{{ site.baseurl }}/assets/fire0407.gif" alt="" width="502" height="321" /></a></p>
+<p>However, it seems that pretty soon that can have an adverse affect on the firewall; for each connection hitting the firewall from the net, there's at least 6x the traffic passing through it. (  NET -&gt; FW -&gt; DMZ -&gt; FW -&gt; BACKEND -&gt; FW -&gt; DMZ -&gt; FW -&gt; NET )  This isn't good, especially if you're looking to purchase a firewall with a pretty low 'max sessions limit.'  It gets worse if you're thinking of splitting the 'BACKEND' into a number of different zones.  However, there is a nifty little improvement:</p>
+<p><a title="Multiple Bastion Hosts" href="http://oreilly.com/catalog/fire/chapter/fire0406.gif" target="_blank"><img class="aligncenter" title="Bastion Hosts" src="{{ site.baseurl }}/assets/fire0406.gif" alt="" width="502" height="321" /></a></p>
+<p>With this approach, you can move your 'internet facing' machines into their own DMZ zone, and still communicate with your backend services without passing too many times through the firewall.  It means that the number of connections the external firewall needs to handle is fewer, meaning you can get a more powerful machine, cheaper - and don't have to compromise because of that pesky connection table limit.</p>
+<p><a title="More" href="http://oreilly.com/catalog/fire/chapter/fire0411.gif" target="_blank"><img class="aligncenter" title="Multiple Internal Networks" src="{{ site.baseurl }}/assets/fire0411.gif" alt="" width="502" height="321" /></a></p>
+<p>Using this diagram now gives even more flexibility, as there is now a nice segregation between the networks behind the interior router.  This setup means that you can have a single-purpose network zone, which is neat, as PCI DSS states that all servers should have a single purpose.  If those have a single purpose, they should share a similar communications port setup - therefore it seems sensible to group them all into the same zone.  They'll also probably not need much by the way of 'interzonal' communications - and if they do, it's segregated off the external firewall.  It will also be much easier to spot problems introduced by an external event (DDoS, Digg Effect, Social Media Strategy Success), and those introduced by those pesky web developers (internal connections increasing).</p>
+<p><strong>Switching</strong></p>
+<p>This is where it starts to get complicated.  Where do you use switches here?  How do you segregate the switch.  Well, I guess I need to look into VLANs to segregate the switch.  Using the diagram above, the two Internal Networks could probably exist on the same switch, providing it was VLAN'd into separate blocks.  It'd be interesting to know if anyone has any preference here in terms of switch - or will a fairly basic switch do what you'd want it to do in this situation?</p>
+<p><strong>Conclusion / Call for Recommendations</strong></p>
+<p>With all this in mind, and the network infrastructure suddenly growing from what was essentially just a 'firewall' with loads of devices plugged into it to a much more complicated setup - how important is it that the technologies used in each of these individual networking devices are integrated?  There are a couple of vendors selling solutions that would integrate the entire networking stack, using the same technology in routers, switches and firewalls. Is it better to go with a single vendor to reduce the management headache, or will the benefits of an integrated solution only come about when many more devices are connected?</p>
+<p>I look forward to hearing what others have done, and I look to sharing more of my decision making progress as things progress.</p>
+<p>&nbsp;</p>

@@ -1,0 +1,61 @@
+---
+layout: post
+title: Converting Documents
+date: 2011-09-07 21:23:09.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags:
+- beautifulsoup
+- debates
+- hansard
+- ooxml
+- parliament
+- parse
+- python
+- xml
+meta:
+  _edit_last: '1'
+  blr_date: '2011-10-17'
+  dsq_thread_id: '407679899'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1452028863;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:310;}i:1;a:1:{s:2:"id";i:254;}i:2;a:1:{s:2:"id";i:1720;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>I recently had the unenviable dilema of being told that my girlfriend had been given a data entry task for her internship. As part of that job, she had to copy/paste data from an OOXML document into a spreadsheet.  Having taken a closer look at the XML behind the document, I realised it all followed a fairly straightforward structure:</p>
+<pre>&lt;hr&gt;
+&lt;H2&gt;Date&lt;/&gt;
+&lt;H2&gt;Title&lt;/&gt;
+&lt;H2&gt;Type&lt;/&gt;
+&lt;div&gt;
+&lt;p&gt;&lt;a&gt;ORIGINAL URL&lt;/&gt;&lt;/&gt;
+&lt;p class=person&gt;Speaker/Author&lt;/&gt;
+&lt;p&gt;Content&lt;/&gt;  *this may repeat any number of times
+&lt;p&gt;&lt;b&gt;Speaker/Author&lt;/b&gt;
+&lt;p&gt;Content&lt;/&gt; *this may repeat any number of times
+&lt;p class="column"&gt;Reference&lt;/&gt; *this may also repeat any number of times
+&lt;/div&gt;</pre>
+<pre>&lt;hr&gt;</pre>
+<pre>.etc</pre>
+<p>
+I had a play with BeautifulSoup, and was able to extract the data for a stanza of this document. The Content does repeat itself and loop through a few times, but I have yet to come up with a solution for iterating through, and defining each section between two 'hr' tags as an independent instance.</p>
+<p>What I'm trying to do it output each section under the following headings into a spreadsheet:</p>
+<p>Date | Title | Speaker | Content</p>
+<p>If anyone could give me some guidance on how to do it using BeautifulSoup then it would be much appreciated.  The main things I feel I need to understand are:</p>
+<ol>
+<li>Identifying and defining 'sections' of a document as to iterate over them.</li>
+<li>What DataType to use when processing the sections (should they be in a dict, or a list.. .etc)</li>
+<li>How to output each line of content to a csv file with the appropriate fields (speaker, topic and date) set on each line of content.</li>
+<li>How to handle the unicode strings that BeautifulSoup returns.</li>
+</ol>
+<div>If anyone could give me a hand, it would be much appreciated.  The task is for a charity, and as you may have guessed by the content, it is to process a report on parliamentary debates.  The good news is that the data structure is very similar for the other types of reports that I would like to parse, so once I've got this one completed I'm pretty sure that I'll be able to make the minor modifications to get others done.</div>
+<div>Thanks in advance!  Andy</div>
+<p>&nbsp;</p>

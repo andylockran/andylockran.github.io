@@ -1,0 +1,30 @@
+---
+layout: post
+title: Centos5 and 'yum update'
+date: 2008-08-07 15:48:18.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '315438373'
+  blr_date: '2011-10-09'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1446322575;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:297;}i:1;a:1:{s:2:"id";i:299;}i:2;a:1:{s:2:"id";i:170;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>I came across a 'small' issue today when writing the policy for our CentOS servers.  It was about how to safely run yum upgrade.. and what happens if something goes wrong.</p>
+<p>I have daily backups of the server, so should the worse come to the worst, it's easy enough to recover... but I was looking for a smarter way.</p>
+<p><a title="RPM Rollback" href="http://liquidat.wordpress.com/2006/01/22/rpm-rollback-3/">RPM Rollback</a> seemed to be the answer, however, for the life of my I couldn't get it to work on my CentOS system.. and as it should have been running since the start, it wasn't really an option.</p>
+<p>What I needed was some kind of system that wrapped up the current rpm binaries, with the configs, and timestamped them so that I'd be ready to revert back to a certain timestamp.  RPM rollback would handle this theoretically.</p>
+<p>Luckily, I have multiple levels of redundancy built into the systems, so even if 'yum update' does bring down my machine, it'll have little impact other than irritation, and frustration at a waste of time.</p>
+<p>Therefore, for now I've simply backed up all the rpms from /var/cache/rpm/*/packages/ into /opt/packages.070808/ ; then ran 'yum update.'</p>
+<p>There's got to be a better way; please let me know if you know it!</p>

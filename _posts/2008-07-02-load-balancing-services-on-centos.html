@@ -1,0 +1,42 @@
+---
+layout: post
+title: Load Balancing Services on CentOS
+date: 2008-07-02 16:09:45.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '245739674'
+  blr_date: '2011-10-14'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451860710;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1638;}i:1;a:1:{s:2:"id";i:209;}i:2;a:1:{s:2:"id";i:297;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>This documentation shows how to us ipvsadm to create load-balanced services on CentOS that are capable of handling over 8 million concurrent connections in 1GB of memory.  It's possible to use this to load-balance <em>any</em> service.  However, this doesn't take into account data-syncronisation issues you may incur.  For this you'll need to set up Networked File Systems and Database replication :)  (maybe coming soon).</p>
+<p><strong>Instructions for CentOS 5 (with ip_vs loaded in kernel as module).</strong></p>
+<p>Load ip_vs module</p>
+<p><em><strong>modprove ip_vs</strong></em></p>
+<p>Install ipvsadm</p>
+<p><em><strong>yum install ipvsadm</strong></em></p>
+<p>Run the following commands on the commandline and test them by visiting the $(external_ip) address in your browser.</p>
+<p><em><strong>ipvsadm -A -t $(external_ip):$(port) -s rr -p $(timeout_in_seconds)<br />ipvsadm -a -t $(external_ip):$(port) -r $(nat_ip_real_server1):$(port)<br />-m -w $(weight) [ example = 1 ]<br />ipvsadm -a -t $(external_ip):$(port) -r $(nat_ip_real_server2):$(port)<br />-m -w $(weight) [ example = 1 ]</strong></em></p>
+<p>Once you're confident they're set right.  run:</p>
+<p>ipvsadm --save</p>
+<p>This will output the config file to the screen.  Copy that into /etc/sysconfig/ipvsadm.</p>
+<p><em><strong>nano /etc/sysconfig/ipvsadm</strong></em></p>
+<p>Restart ipvsadm</p>
+<p><em><strong>/etc/init.d/ipvsadm restart</strong></em></p>
+<p>Test the sites.</p>
+<p>Make module &amp; config persistent @ boot time:</p>
+<p><strong><em>echo modprobe ip_vs &gt;&gt; /etc/rc.modules<br />chmod +x /etc/rc.modules</em><br /></strong>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<br />!! /etc/rc.modules is used instead     !!<br />!! of rc.local as it loads earlier     !!!!!!!!!<br />!! in the boot process.!!               !!!!!<br />!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
+<p><em><strong>chkconfig --add ipvsadm</strong></em></p>
+<p>Done :)</p>

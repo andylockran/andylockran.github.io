@@ -1,0 +1,79 @@
+---
+layout: post
+title: Apache Nifi setup on Ubuntu
+date: 2017-08-30 09:14:46.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags:
+- airflow
+- data
+- luigi
+- nifi
+- pipeline
+- technical documentation
+meta:
+  _edit_last: '1'
+  _gtm_vars: a:0:{}
+  _wpas_mess: Apache Nifi setup on Ubuntu
+  _wpas_skip_13286454: '1'
+  _publicize_twitter_user: "@andylockran"
+  _wpas_done_all: '1'
+  _wpas_skip_9106205: '1'
+  _wpas_skip_10539271: '1'
+  _wpas_skip_10539259: '1'
+  _wpas_skip_9106195: '1'
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p><em>I feel a bit like I'm going back to my roots with this blog post.  Technical documentation on how I've setup a relatively niche product, with an opinionated stance on how it should be setup.</em></p>
+<h2>What is Apache Nifi?</h2>
+<p>Apache Nifi is an easy to use, powerful, and reliable system to process and distribute data.  It supports powerful and scalable directed graphs of data routing, transformation, and system mediation logic. See <a href="http://nifi.apache.org/">http://nifi.apache.org/</a> for more info.</p>
+<h2>What's the context of the setup?</h2>
+<p>I want to wrap a control process around some of the disparate lambda tasks that I have triggered by S3.  I need a control function for reporting &amp; monitoring, as well as something relatively simple to use to allow support workers to identify and make adjustments upstream from the 'critical path.'  I reviewed Luigi, Airflow &amp; Nifi as options, and ended up picking Nifi due to the speed &amp; flexibility of usability.</p>
+<h2>Docker (ECS) v. Barebones (EC2)</h2>
+<p>The first decision was on the deployment model for Nifi.</p>
+<p>At this stage the bounding resource for the use case that I'm pushing through Nifi is likely to be memory, as some of the files passing through the process may reach up to 5GB in size; that said, I hope that the majority are going to be closer to the 100MB end of the scale.  For initial discovery, I'd used a well made docker image <a href="https://github.com/mkobit/docker-nifi">mkobit/nifi</a>, to stand up and validate Nifi.</p>
+<p>Unfortunately I found a gotcha with the docker setup (having not been "down in the dirt" for a few months) and either docker's changed it's default behaviour, or the persistence model has changed.  Either way, without explicitly defining a volume for <code>/opt/nifi/conf</code> - upon container restart I'd lost all my configuration.  The good news is that this allowed me to validate how simple Nifi was - within 15 minutes I'd been able to rebuild my model from scratch, having now familiarised myself with a number of Nifi standard processors.</p>
+<p>I therefore took the decision to build a barebones installation of Nifi on top of the latest Ubuntu LTS release.  There's no official package; so I'll be relying on the releases directly from nifi.apache.org.</p>
+<h2>Initial installation</h2>
+<p>Once you've got your vanilla LTS release stood up, add the following to the end of /etc/security/limits.conf<br />
+<code>* hard nofile 50000<br />
+* soft nofile 50000<br />
+* hard nproc 10000<br />
+* soft nproc 10000<br />
+</code><br />
+The documentation mentions you may also need to edit <code>/etc/security/limits.d/90-nproc.conf</code> - however that is not required on Ubuntu.</p>
+<p>You'll also need to allow additional tcp sockets, as that's how your flow will communicate with each other.  Once we've got our flows setup a stable, these should be monitored on a production environment to make sure that capacity levels are set correctly.</p>
+<p>In <code>/etc/sysctl.conf</code> add the following line:</p>
+<p><code>net.ipv4.ip_local_port_range=10000 65000</code></p>
+<p>I mentioned earlier that the process is likely to be memory bound.  For performance reasons (and to avoid disk i/o becoming a bottleneck) we'll need to set the swapfile to be disabled so that we don't end up with weird behaviours.</p>
+<p>In <code>/etc/sysctl.conf</code> add the following line:</p>
+<p><code>vm.swappiness = 0</code></p>
+<p>The final implementation key will be looking at the overhead of things like the core notification time on files.  Assuming that this instance is tailored specifically for Nifi (which it should; 1 server per role and all that jazz) - we can disable access time logging by setting /etc/fstab and adding <code>noatime</code> to each of the volumes that will have high input/output for Nifi.  Again, I'd probably recommend putting /opt/nifi in it's own volume so the scope is clear (and you keep the atime logging for your generic system files &amp; logs).</p>
+<h3>Package dependencies</h3>
+<p>Nifi requires a JRE, so run the following to get OpenJDK version 8 JRE:</p>
+<p><code>apt-get install openjdk-8-jre</code></p>
+<h2>Installing Nifi</h2>
+<p>To install Nifi in the base system, I'm going to home it in /opt/nifi/.</p>
+<p>Download the latest binary from <a href="https://nifi.apache.org/download.html">https://nifi.apache.org/download.html</a> - which for this tutorial is 1.3.0.</p>
+<p><code>wget http://www.mirrorservice.org/sites/ftp.apache.org/nifi/1.3.0/nifi-1.3.0-bin.tar.gz</code></p>
+<p>Then extract the file:</p>
+<p><code>tar zxvf nifi-1.3.0-bin.tar.gz</code></p>
+<p>Once that's done - let's add our new nifi scripts to our <code>PATH</code> environment variable:</p>
+<p><code>echo 'export PATH=$PATH:/opt/nifi/nifi-1.3.0/bin' &gt;&gt; /etc/bash.bashrc</code></p>
+<p>You'll need to reload the shell; run <code>/bin/bash</code> to do so (or simply close and reload a new session).</p>
+<p>We can now install nifi as a <strong>service </strong>in Ubuntu; by running <code>nifi.sh install</code>.  This will make monitoring slightly easier, and allow us to start the service on boot.  Unfortunately there's a bug in the service script which causes the following error when trying to add using systemctl:</p>
+<p><code>systemctl enable nifi</code></p>
+<p><strong>insserv: There is a loop at service nifi if started.</strong></p>
+<p>Instead you can also start nifi without installing a a service by running:</p>
+<p><code>nifi.sh start</code></p>
+<p>The next post will be on configuring <code>nifi.properties</code> and setting up a certificate store for client-side SSL authentication.</p>

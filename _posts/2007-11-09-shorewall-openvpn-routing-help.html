@@ -1,0 +1,24 @@
+---
+layout: post
+title: Shorewall & OpenVPN & Routing help
+date: 2007-11-09 14:12:30.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags: []
+meta:
+  dsq_thread_id: '237739338'
+  blr_date: '2011-10-13'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1451115352;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1824;}i:1;a:1:{s:2:"id";i:68;}i:2;a:1:{s:2:"id";i:292;}}}}
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>12:24 &lt; andylockran&gt; hey guys<br />12:24 &lt; andylockran&gt; I need some help as I haven't yet identified the problem, so can't look for a solution.<br />12:25 &lt; andylockran&gt; I'm trying to get two identical server clusters replicating over openvpn.  As they're "identical" I<br />want to keep them with the same ip addresses.  In order to avoid IP conflict, port forwarding is set up<br />for the replication.<br />12:26 &lt; andylockran&gt; On cluster 1, db forwards it's ldap port to the firewall machine (which is one end of hte vpn) and the<br />same happens at the other end on the second cluster.<br />12:27 &lt; andylockran&gt; However, for this two work, the opposing clients need to be able to see the other firewall machine (the<br />two vpn ip addresses)<br />12:27 &lt; andylockran&gt; both db can see their own fw machine's ip.. but not the other<br />12:27 &lt; andylockran&gt; can you tell me if it's a routing, or bridging problem.  or whether what I'm trying to do is<br />incompatible with openvpn?</p>

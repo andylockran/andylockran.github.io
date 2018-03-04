@@ -1,0 +1,35 @@
+---
+layout: post
+title: Terraform Design Pattern - multiple providers
+date: 2018-01-21 17:08:21.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Technology
+tags:
+- aws
+- aws_vpc_peering_connection_accepter
+- credential_process
+- terraform
+meta:
+  _edit_last: '1'
+  _wpas_done_all: '1'
+  _gtm_vars: a:0:{}
+  _wpas_mess: Terraform Design Patter - multiple providers
+  _wpas_skip_13286454: '1'
+  _publicize_twitter_user: "@andylockran"
+  _wpas_skip_9106205: '1'
+author:
+  login: andy
+  email: andy@zrmt.com
+  display_name: andylockran
+  first_name: Andy
+  last_name: Loughran
+---
+<p>Having gotten to grips with terraform over the past few months, there's an awful lot I've learned from the multitude of useful posts and books published on the subject, but also from getting firsthand experience.</p>
+<p>One of the design patters in terraform that has piqued my interest was the use of multiple providers, as given in the <a href="https://www.terraform.io/docs/providers/aws/r/vpc_peering_accepter.html">aws_vpc_peering_connection_accepter</a> example in the terraform documentation.  Though fairly lightly covered in the documentation, it does lend itself to a good many use cases.</p>
+<p>The most popular one being the ability for the provider to assume a different role (even across different accounts) to setup and manage resources.  I've found this incredibly useful as a design pattern, as it also allows for finer-grained permissions management of such resources.  With the ability to call dynamic applications to provide creds to the AWS provider, using the credential_process parameter, it will no doubt be plausible to make sure that the only resource allocation in AWS is managed by your master terraform configuration.</p>
+<p>How do you use multiple providers in terraform?</p>
