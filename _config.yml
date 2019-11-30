@@ -24,7 +24,7 @@ github_username:  andylockran
 
 # Build settings
 markdown: kramdown
-theme: jekyll-theme-tactile
+theme: jekyll-theme-hacker
 plugins:
   - jekyll-feed
 
